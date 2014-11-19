@@ -329,6 +329,7 @@ class Post implements PostInterface
 	public function addTag(TagInterface $tag)
 	{
 		$this->tags->add($tag);
+		$tag->addPost($this);
 	}
 
 	/**

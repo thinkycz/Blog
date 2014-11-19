@@ -1,0 +1,43 @@
+services:
+
+  cvut_fit_biwt1_blog_common.repository.comment:
+    class: Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment
+    factory_service: doctrine.orm.entity_manager
+    factory_method: getRepository
+    arguments:
+      - Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment
+
+  cvut_fit_biwt1_blog_common.repository.file:
+    class: Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\File
+    factory_service: doctrine.orm.entity_manager
+    factory_method: getRepository
+    arguments:
+      - Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\File
+
+  cvut_fit_biwt1_blog_common.repository.image:
+    class: Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Image
+    factory_service: doctrine.orm.entity_manager
+    factory_method: getRepository
+    arguments:
+      - Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Image
+
+  cvut_fit_biwt1_blog_common.repository.post:
+    class: Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Post
+    factory_service: doctrine.orm.entity_manager
+    factory_method: getRepository
+    arguments:
+      - Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Post
+
+  cvut_fit_biwt1_blog_common.repository.tag:
+    class: Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Tag
+    factory_service: doctrine.orm.entity_manager
+    factory_method: getRepository
+    arguments:
+      - Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Tag
+
+  cvut_fit_biwt1_blog_common.repository.user:
+    class: Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\User
+    factory_service: doctrine.orm.entity_manager
+    factory_method: getRepository
+    arguments:
+      - Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\User

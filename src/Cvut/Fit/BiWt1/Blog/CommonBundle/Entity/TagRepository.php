@@ -2,7 +2,7 @@
 
 namespace Cvut\Fit\BiWt1\Blog\CommonBundle\Entity;
 
-use Doctrine\ORM\EntityRepository;
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Doctrine\Repository\EntityRepository;
 
 /**
  * TagRepository

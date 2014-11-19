@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * Class Post
  * @package Cvut\Fit\BiWt1\Blog\CommonBundle\Entity
- * @ORM\Entity(repositoryClass="Post")
+ * @ORM\Entity(repositoryClass="PostRepository")
  * @ORM\Table(name="blog_post")
  */
 class Post implements PostInterface

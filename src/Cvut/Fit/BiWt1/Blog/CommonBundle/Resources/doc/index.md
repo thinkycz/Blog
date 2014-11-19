@@ -1,5 +1,5 @@
-Dokumentace k BlogCommonBundle
-==============================
+BlogCommonBundle
+================
 
 Tento bundle obsahuje nutné komponenty pro práci na úloze 2:
 

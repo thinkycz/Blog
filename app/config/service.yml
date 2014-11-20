@@ -1,0 +1,6 @@
+services:
+  cvut_fit_biwt1_blog:
+    class: 'Cvut\Fit\BiWt1\Blog\ApplicationBundle\Service\BlogService'
+    arguments:
+      - '@cvut_fit_biwt1_blog_common.repository.post'
+      - '@cvut_fit_biwt1_blog_common.repository.comment'

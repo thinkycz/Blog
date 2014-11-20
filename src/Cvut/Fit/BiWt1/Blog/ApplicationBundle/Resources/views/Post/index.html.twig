@@ -1,0 +1,17 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}BlogApplicationBundle:Post:index{% endblock %}
+
+{% block body %}
+<h1>Welcome to the Post:index page</h1>
+    {% for post in posts %}
+    <h2>{{ post.title }}</h2>
+        <p>{{ post.author.name }} - {{ post.created | date('j. n. Y H:i') }}</p>
+        <p>{{ post.text }}</p>
+        <ul>
+            {% for comment in post.comments %}
+                <li>{{ comment.text }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

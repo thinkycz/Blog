@@ -1,5 +1,0 @@
-blog_common:
-    resource: "@BlogCommonBundle/Controller/"
-    type:     annotation
-    prefix:   /
-

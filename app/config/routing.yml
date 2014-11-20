@@ -1,0 +1,9 @@
+blog_application:
+    resource: "@BlogApplicationBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+cvut_fit_bi_wt1_blog_my:
+    resource: "@CvutFitBiWt1BlogMyBundle/Resources/config/routing.yml"
+    prefix:   /
+

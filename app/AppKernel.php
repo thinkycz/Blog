@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Cvut\Fit\BiWt1\Blog\CommonBundle\BlogCommonBundle(),
+            new Cvut\Fit\BiWt1\Blog\ApplicationBundle\BlogApplicationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,5 +1,5 @@
 <?php
-namespace Cvut\Fit\BiWt1\Blog\Common\Bundle\Service;
+namespace Cvut\Fit\BiWt1\Blog\CommonBundle\Service;
 
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\CommentInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\FileInterface;

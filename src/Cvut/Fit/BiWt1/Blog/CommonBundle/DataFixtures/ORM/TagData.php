@@ -3,8 +3,6 @@ namespace Cvut\Fit\BiWt1\Blog\CommonBundle\DataFixtures\ORM;
 
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Tag;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\DataFixtures\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class TagData extends AbstractFixture {

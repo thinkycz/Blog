@@ -4,7 +4,6 @@ namespace Cvut\Fit\BiWt1\Blog\CommonBundle\DataFixtures\ORM;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\DataFixtures\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class CommentData extends AbstractFixture implements DependentFixtureInterface {
@@ -16,7 +15,7 @@ class CommentData extends AbstractFixture implements DependentFixtureInterface {
 	function load(ObjectManager $manager)
 	{
 		for($i = 0; $i < 50; $i++) {
-			$comment = new Comment();
+			$comment = new Comment;
 			$now = new \DateTime;
 
 			$comment->setText('Comment ' . $i);

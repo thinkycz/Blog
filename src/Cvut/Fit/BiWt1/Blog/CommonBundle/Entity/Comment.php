@@ -49,6 +49,7 @@ class Comment implements CommentInterface
      * Rodicovsky komentar. Nepovinny.
      * @var CommentInterface
      * @ORM\ManyToOne(targetEntity="Comment")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $parent;
 

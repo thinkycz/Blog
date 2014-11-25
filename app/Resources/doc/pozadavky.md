@@ -69,6 +69,7 @@
       * F.4.3.1 Autorizace uživatele
       * F.4.3.2 Smazání komentáře
       * F.4.3.3 Smazání příloh
+  * F.5 Podpora tisku (CSS)
 
 ## Nefunkční požadavky
 
@@ -76,3 +77,5 @@
   1. ORM Doctrine 2
   1. Symfony 2
   1. Testování PHPunit
+  1. Validní HTML
+  1. Validní CSS

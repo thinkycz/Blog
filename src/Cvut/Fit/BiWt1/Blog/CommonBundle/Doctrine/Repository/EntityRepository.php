@@ -7,6 +7,8 @@
  */
 
 namespace Cvut\Fit\BiWt1\Blog\CommonBundle\Doctrine\Repository;
+use Cvut\Fit\Ict\SecurityBundle\Security\SecurityContextAwareInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Abstraktni predek spolecne pro operace v repozitari
@@ -14,7 +16,8 @@ namespace Cvut\Fit\BiWt1\Blog\CommonBundle\Doctrine\Repository;
  * Class EntityRepository
  * @package Cvut\Fit\BiWt1\Blog\CommonBundle\Doctrine\Repository
  */
-abstract class EntityRepository extends \Doctrine\ORM\EntityRepository {
+abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
+    implements SecurityContextAwareInterface {
 
     /**
      * @param $object
@@ -76,4 +79,19 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository {
             $this->getEntityManager()->flush($object);
     }
 
+    /**
+     * @var SecurityContextInterface
+     */
+    protected $securityContext;
+
+    /**
+     * Sets security context, if it is available
+     *
+     * @param SecurityContextInterface $securityContext
+     * @return mixed
+     */
+    public function setSecurityContext(SecurityContextInterface $securityContext)
+    {
+        $this->securityContext = $securityContext;
+    }
 }

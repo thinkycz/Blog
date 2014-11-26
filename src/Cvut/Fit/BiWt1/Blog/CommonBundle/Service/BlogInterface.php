@@ -6,7 +6,6 @@ use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\FileInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\TagInterface;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * Rozhrani sluzby pro obsluhu blogu
@@ -53,10 +52,10 @@ interface BlogInterface {
     /**
      * Najde a vrati tagy podle kriterii
      *
-     * @param Criteria $criteria
+     * @param mixed $criteria - cast QueryBuilderu, ktera se pouzije v QueryBuilder::andWhere
      * @return Collection<TagInterface>
      */
-    public function findTagBy(Criteria $criteria);
+    public function findTagBy($criteria);
 
     /* ### Post ### */
 
@@ -95,10 +94,10 @@ interface BlogInterface {
     /**
      * Najde zapisky podle kriterii a vrati
      *
-     * @param Criteria $criteria
+     * @param mixed $criteria - cast QueryBuilderu, ktera se pouzije v QueryBuilder::andWhere
      * @return Collection<PostInterface>
      */
-    public function findPostBy(Criteria $criteria);
+    public function findPostBy($criteria);
 
     /* ### Comment ### */
 

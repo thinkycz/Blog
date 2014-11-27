@@ -18,13 +18,20 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "doctrine/doctrine-fixtures-bundle": "2.2.*"
+        "doctrine/doctrine-fixtures-bundle": "2.2.*",
+        "cvut_fit_ict/symfony-security": "0.0.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
         "phpunit/phpunit": "*",
         "phpunit/phpunit-skeleton-generator": "2.0.*@dev"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://ict.fit.cvut.cz/satis/packages.json"
+        }
+    ],
     "scripts": {
         "post-root-package-install": [
             "SymfonyStandard\\Composer::hookRootPackageInstall"

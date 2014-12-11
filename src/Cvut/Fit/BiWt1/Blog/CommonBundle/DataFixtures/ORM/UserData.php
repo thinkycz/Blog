@@ -16,6 +16,7 @@ class UserData extends AbstractFixture {
 		for($i = 0; $i < 3; $i++) {
 			$user = new User;
 			$user->setName('User ' . $i);
+            $user->setPassword('Pass '. $i);
 			$this->setReference('user-' . $i, $user);
 			$manager->persist($user);
 		}

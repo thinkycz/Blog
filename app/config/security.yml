@@ -1,7 +1,13 @@
 security:
     providers:
-        in_memory:
-            memory: ~
+        main:
+            entity:
+                class: Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\User
+                property: name
+
+    encoders:
+        Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\User:
+            algorithm: sha1
 
     firewalls:
         dev:
@@ -10,3 +16,17 @@ security:
 
         default:
             anonymous: ~
+
+        secured_area:
+            pattern:   ^/
+            anonymous: ~
+            form_login:
+                login_path: login
+                check_path: login_check
+            logout:
+                path: /logout
+                target: /
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

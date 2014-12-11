@@ -48,10 +48,17 @@ class Comment implements CommentInterface
     /**
      * Rodicovsky komentar. Nepovinny.
      * @var CommentInterface
-     * @ORM\ManyToOne(targetEntity="Comment")
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $parent;
+
+    /**
+     * Potomci komentare. Nepovinny.
+     * @var CommentInterface
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent")
+     */
+    protected $children;
 
     /**
      * Text komentare
@@ -280,4 +287,37 @@ class Comment implements CommentInterface
         $this->spam = $spam;
     }
 
+
+    /**
+     * Add children
+     *
+     * @param \Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment $children
+     * @return Comment
+     */
+    public function addChild(\Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment $children)
+    {
+        $this->children[] = $children;
+
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param \Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment $children
+     */
+    public function removeChild(\Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment $children)
+    {
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
 }

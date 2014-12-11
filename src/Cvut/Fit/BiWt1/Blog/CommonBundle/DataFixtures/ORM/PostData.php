@@ -19,7 +19,7 @@ class PostData extends AbstractFixture implements DependentFixtureInterface {
 			$now = new \DateTime;
 
 			$post->setTitle('Title ' . $i);
-			$post->setText('Text ' . $i);
+			$post->setText(str_repeat('Text ' . $i . ' ', 20));
 			$post->setAuthor($this->getReference('user-' . ($i % 3)));
 			$post->setCreated($now);
 			$post->setModified($now);

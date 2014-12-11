@@ -99,5 +99,4 @@ class Image extends File implements ImageInterface
     {
         $this->preview = $preview;
     }
-
 }

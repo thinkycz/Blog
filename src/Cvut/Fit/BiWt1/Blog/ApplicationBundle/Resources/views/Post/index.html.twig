@@ -1,17 +1,14 @@
-{% extends "::base.html.twig" %}
-
-{% block title %}BlogApplicationBundle:Post:index{% endblock %}
+{% extends "BlogApplicationBundle::layout.html.twig" %}
 
 {% block body %}
-<h1>Welcome to the Post:index page</h1>
-    {% for post in posts %}
-    <h2>{{ post.title }}</h2>
-        <p>{{ post.author.name }} - {{ post.created | date('j. n. Y H:i') }}</p>
-        <p>{{ post.text }}</p>
-        <ul>
-            {% for comment in post.comments %}
-                <li>{{ comment.text }}</li>
-            {% endfor %}
-        </ul>
-    {% endfor %}
+    <h1>Můj blog</h1>
+    {% if posts|length > 0 %}
+        {% for post in posts %}
+            <h2><a href="{{ path('detailAction', {'id': post.id}) }}">{{ post.title }}</a></h2>
+            <p>{{ post.author.name }} - {{ post.created | date('j. n. Y H:i') }}</p>
+            <p>{{ post.text[:50] }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Žádné příspěvky ještě neexistují.</p>
+    {% endif %}
 {% endblock %}

@@ -14,9 +14,21 @@ class PostController extends Controller
      */
     public function indexAction()
     {
-        $posts = $this->get('cvut_fit_biwt1_blog')->getPosts();
+        $posts = $this->get('cvut_fit_biwt1_blog')->findAllPosts();
         return array(
             'posts' => $posts
+        );
+    }
+
+    /**
+     * @Route("post/{id}", name="detailAction")
+     * @Template()
+     */
+    public function detailAction($id)
+    {
+        $post = $this->get('cvut_fit_biwt1_blog')->findPost($id);
+        return array(
+            'post' => $post
         );
     }
 }

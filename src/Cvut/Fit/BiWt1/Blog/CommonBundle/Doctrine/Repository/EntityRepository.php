@@ -7,7 +7,7 @@
  */
 
 namespace Cvut\Fit\BiWt1\Blog\CommonBundle\Doctrine\Repository;
-use Cvut\Fit\Ict\SecurityBundle\Security\SecurityContextAwareInterface;
+//use Cvut\Fit\Ict\SecurityBundle\Security\SecurityContextAwareInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @package Cvut\Fit\BiWt1\Blog\CommonBundle\Doctrine\Repository
  */
 abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
-    implements SecurityContextAwareInterface {
+    {
 
     /**
      * @param $object

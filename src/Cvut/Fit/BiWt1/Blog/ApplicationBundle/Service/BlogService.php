@@ -25,7 +25,7 @@ class BlogService implements BlogInterface
         $this->postRepository = $postRepository;
     }
 
-    public function getPosts()
+    public function findAllPosts()
     {
         return $this->postRepository->findAll();
     }
@@ -77,10 +77,10 @@ class BlogService implements BlogInterface
     /**
      * Najde a vrati tagy podle kriterii
      *
-     * @param Criteria $criteria
+     * @param mixed $criteria
      * @return Collection<TagInterface>
      */
-    public function findTagBy(Criteria $criteria)
+    public function findTagBy($criteria)
     {
         // TODO: Implement findTagBy() method.
     }
@@ -126,16 +126,16 @@ class BlogService implements BlogInterface
      */
     public function findPost($id)
     {
-        // TODO: Implement findPost() method.
+        return $this->postRepository->find($id);
     }
 
     /**
      * Najde zapisky podle kriterii a vrati
      *
-     * @param Criteria $criteria
+     * @param mixed $criteria
      * @return Collection<PostInterface>
      */
-    public function findPostBy(Criteria $criteria)
+    public function findPostBy($criteria)
     {
         // TODO: Implement findPostBy() method.
     }

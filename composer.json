@@ -27,10 +27,17 @@
         "phpunit/phpunit-skeleton-generator": "2.0.*@dev"
     },
     "repositories": [
-        {
-            "type": "composer",
-            "url": "https://ict.fit.cvut.cz/satis/packages.json"
-        }
+	{
+		"type": "package",
+		"package": {
+			"name": "cvut_fit_ict/symfony-security",
+			"version": "0.0.1",
+			"dist": {
+				"url": "http://webdev.fit.cvut.cz/~kadleto2/composer/symfony-security.zip",
+			        "type": "zip"
+			}
+		}
+	}
     ],
     "scripts": {
         "post-root-package-install": [

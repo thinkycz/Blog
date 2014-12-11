@@ -17,6 +17,10 @@ security:
         default:
             anonymous: ~
 
+        login_firewall:
+            pattern:   ^/login$
+            anonymous: ~
+
         secured_area:
             pattern:   ^/
             anonymous: ~
@@ -29,4 +33,4 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }

@@ -70,3 +70,14 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+#flysystem
+oneup_flysystem:
+    adapters:
+        local_attachments:
+            local:
+                directory: %kernel.root_dir%/data
+
+    filesystems:
+        local_attachments:
+            adapter: local_attachments

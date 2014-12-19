@@ -13,6 +13,8 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="login")
      * @Template()
+     * @param Request $request
+     * @return mixed
      */
     public function loginAction(Request $request)
     {

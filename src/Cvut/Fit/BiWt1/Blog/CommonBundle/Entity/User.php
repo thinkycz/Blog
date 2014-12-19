@@ -165,7 +165,7 @@ class User implements UserInterface, CoreUserInterface
      */
     public function getSalt()
     {
-        return $this->name . "12345";
+        return null;
     }
 
     /**

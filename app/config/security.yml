@@ -7,15 +7,12 @@ security:
 
     encoders:
         Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\User:
-            algorithm: sha1
+            algorithm: plaintext
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        default:
-            anonymous: ~
 
         login_firewall:
             pattern:   ^/login$

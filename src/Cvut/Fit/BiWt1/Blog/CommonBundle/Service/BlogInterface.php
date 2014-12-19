@@ -136,9 +136,9 @@ interface BlogInterface {
     /**
      * Odebere od zapisku soubor
      *
-     * @param $file
+     * @param FileInterface $file
      * @return PostInterface
      */
-    public function deleteFile($file);
+    public function deleteFile(FileInterface $file);
 
 }

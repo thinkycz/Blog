@@ -1,0 +1,44 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}BlogApplicationBundle:Security:login{% endblock %}
+
+{% block stylesheets %}
+   {{ parent() }}
+<style>
+    .form-login {
+        background-color: #EDEDED;
+        padding-top: 10px;
+        padding-bottom: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 15px;
+        border-color:#d2d2d2;
+        border-width: 5px;
+        box-shadow:0 1px 0 #cfcfcf;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<br>
+<div class="col-md-offset-5 col-md-3">
+    <div class="form-login">
+        <h1>Howdy!</h1>
+        {% if error %}
+            <div>{{ error.message }}</div>
+        {% endif %}
+        <form action="{{ path('login_check') }}" method="post">
+            <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control input-sm chat-input" placeholder="username" />
+            </br>
+            <input type="password" id="password" name="_password" class="form-control input-sm chat-input" placeholder="password" />
+            </br>
+            <div class="wrapper">
+                <span class="group-btn">
+                    <button type="submit" class="btn btn-primary btn-md">login</button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

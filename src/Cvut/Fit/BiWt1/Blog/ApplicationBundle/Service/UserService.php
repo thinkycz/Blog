@@ -8,10 +8,21 @@
 
 namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Service;
 
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\UserRepository;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Service\UserInterface;
 use Doctrine\Common\Collections\Collection;
 
-class UserService implements UserInterface{
+class UserService implements UserInterface {
+
+    protected $userRepository;
+
+    /**
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
 
     /**
      * Vytvori noveho uzivatele, pokud neexistuje
@@ -21,7 +32,8 @@ class UserService implements UserInterface{
      */
     public function create(\Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\UserInterface $user)
     {
-        // TODO: Implement create() method.
+        $this->userRepository->create($user);
+        return $user;
     }
 
     /**
@@ -32,7 +44,8 @@ class UserService implements UserInterface{
      */
     public function update(\Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\UserInterface $user)
     {
-        // TODO: Implement update() method.
+        $this->userRepository->update($user);
+        return $user;
     }
 
     /**
@@ -43,7 +56,8 @@ class UserService implements UserInterface{
      */
     public function delete(\Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\UserInterface $user)
     {
-        // TODO: Implement delete() method.
+        $this->userRepository->remove($user);
+        return $user;
     }
 
     /**
@@ -54,7 +68,7 @@ class UserService implements UserInterface{
      */
     public function find($id)
     {
-        // TODO: Implement find() method.
+        return $this->userRepository->find($id);
     }
 
     /**
@@ -64,7 +78,7 @@ class UserService implements UserInterface{
      */
     public function findAll()
     {
-        // TODO: Implement findAll() method.
+        return $this->userRepository->findAll();
     }
 
     /**
@@ -75,6 +89,6 @@ class UserService implements UserInterface{
      */
     public function findBy($criteria)
     {
-        // TODO: Implement findBy() method.
+        return $this->userRepository->findBy($criteria);
     }
 }

@@ -50,6 +50,7 @@ class Post implements PostInterface
      * Autor
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $author;
 
@@ -92,7 +93,7 @@ class Post implements PostInterface
      * Kolekce komentaru vztahujici se k prispevku
      * @var Collection
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
-
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
 	protected $comments;
 
@@ -100,6 +101,7 @@ class Post implements PostInterface
      * Kolekce souboru vztahujici se k prispevku
      * @var Collection
      * @ORM\OneToMany(targetEntity="File", mappedBy="post")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $files;
 
@@ -107,6 +109,7 @@ class Post implements PostInterface
 	 * Kolekce tagu vztahujici se k prispevku
 	 * @var Collection
 	 * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\JoinTable(name="blog_post_tag")
 	 */
 	protected $tags;

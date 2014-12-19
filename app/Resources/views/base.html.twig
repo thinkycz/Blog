@@ -10,6 +10,28 @@
     </head>
     <body>
     <div class="container">
+        {% block header %}
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    {% if is_granted('ROLE_USER') %}
+                        <li role="presentation" {% if app.request.get('_route') == 'admin_user' %} class="active" {% endif %}><a href="{{ path("admin_user") }}">Manage users</a></li>
+                        <li role="presentation" {% if app.request.get('_route') == 'admin_post' %} class="active" {% endif %}><a href="{{ path("admin_post") }}">Manage posts</a></li>
+                    {% endif %}
+
+                        <li role="presentation" {% if app.request.get('_route') == 'index' %} class="active" {% endif %}><a href="{{ path("index") }}">Main page</a></li>
+
+                    {% if is_granted('ROLE_USER') %}
+                        <li role="presentation"><a href="{{ path("logout") }}">Log out</a></li>
+                    {% else %}
+                        <li role="presentation"><a href="{{ path("login") }}">Log in</a></li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+            <h1 class=text-info>My little blog</h1>
+        </div>
+        {% endblock %}
         {% block body %}{% endblock %}
     </div>
         {% block javascripts %}{% endblock %}

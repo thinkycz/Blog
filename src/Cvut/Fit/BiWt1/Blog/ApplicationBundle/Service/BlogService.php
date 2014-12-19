@@ -8,6 +8,9 @@
 
 namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Service;
 
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostRepository;
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\TagRepository;
+
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\CommentInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\FileInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostInterface;
@@ -17,6 +20,15 @@ use Doctrine\Common\Collections\Collection;
 
 class BlogService implements BlogInterface {
 
+    protected $postRepository;
+    protected $tagRepository;
+
+    public function __construct(PostRepository $postRepository, TagRepository $tagRepository)
+    {
+        $this->tagRepository = $tagRepository;
+        $this->postRepository = $postRepository;
+    }
+
     /**
      * Vytvori novy tag, pokud neexistuje
      *
@@ -25,7 +37,8 @@ class BlogService implements BlogInterface {
      */
     public function createTag(TagInterface $tag)
     {
-        // TODO: Implement createTag() method.
+        $this->tagRepository->create($tag);
+        return $tag;
     }
 
     /**
@@ -36,7 +49,8 @@ class BlogService implements BlogInterface {
      */
     public function updateTag(TagInterface $tag)
     {
-        // TODO: Implement updateTag() method.
+        $this->tagRepository->update($tag);
+        return $tag;
     }
 
     /**
@@ -47,7 +61,8 @@ class BlogService implements BlogInterface {
      */
     public function deleteTag(TagInterface $tag)
     {
-        // TODO: Implement deleteTag() method.
+        $this->tagRepository->remove($tag);
+        return $tag;
     }
 
     /**
@@ -58,7 +73,7 @@ class BlogService implements BlogInterface {
      */
     public function findTag($id)
     {
-        // TODO: Implement findTag() method.
+        return $this->tagRepository->find($id);
     }
 
     /**
@@ -69,7 +84,7 @@ class BlogService implements BlogInterface {
      */
     public function findTagBy($criteria)
     {
-        // TODO: Implement findTagBy() method.
+        return $this->tagRepository->findBy($criteria);
     }
 
     /**
@@ -80,7 +95,8 @@ class BlogService implements BlogInterface {
      */
     public function createPost(PostInterface $post)
     {
-        // TODO: Implement createPost() method.
+        $this->postRepository->create($post);
+        return $post;
     }
 
     /**
@@ -91,7 +107,8 @@ class BlogService implements BlogInterface {
      */
     public function updatePost(PostInterface $post)
     {
-        // TODO: Implement updatePost() method.
+        $this->postRepository->update($post);
+        return $post;
     }
 
     /**
@@ -102,7 +119,8 @@ class BlogService implements BlogInterface {
      */
     public function deletePost(PostInterface $post)
     {
-        // TODO: Implement deletePost() method.
+        $this->postRepository->remove($post);
+        return $post;
     }
 
     /**
@@ -113,7 +131,7 @@ class BlogService implements BlogInterface {
      */
     public function findPost($id)
     {
-        // TODO: Implement findPost() method.
+        return $this->postRepository->find($id);
     }
 
     /**
@@ -124,7 +142,12 @@ class BlogService implements BlogInterface {
      */
     public function findPostBy($criteria)
     {
-        // TODO: Implement findPostBy() method.
+        return $this->postRepository->findBy($criteria);
+    }
+
+    public function findAllPosts()
+    {
+        return $this->postRepository->findAll();
     }
 
     /**
@@ -138,7 +161,11 @@ class BlogService implements BlogInterface {
     public function addComment(PostInterface $post, CommentInterface $comment,
                                CommentInterface $parentComment = null)
     {
-        // TODO: Implement addComment() method.
+        $comment->setParent($parentComment);
+        $comment->setPost($post);
+        $post->addComment($comment);
+        $this->postRepository->update($post);
+        return $post;
     }
 
     /**
@@ -149,7 +176,10 @@ class BlogService implements BlogInterface {
      */
     public function deleteComment(CommentInterface $comment)
     {
-        // TODO: Implement deleteComment() method.
+        $post = $comment->getPost();
+        $post->removeComment($comment);
+        $this->postRepository->update($post);
+        return $post;
     }
 
     /**
@@ -163,17 +193,24 @@ class BlogService implements BlogInterface {
     public function addPostFile(FileInterface $file, PostInterface $post,
                                 CommentInterface $comment = null)
     {
-        // TODO: Implement addPostFile() method.
+        $file->setPost($post);
+        $file->setComment($comment);
+        $post->addFile($file);
+        $this->postRepository->update($post);
+        return $post;
     }
 
     /**
      * Odebere od zapisku soubor
      *
-     * @param $file
+     * @param FileInterface $file
      * @return PostInterface
      */
-    public function deleteFile($file)
+    public function deleteFile(FileInterface $file)
     {
-        // TODO: Implement deleteFile() method.
+        $post = $file->getPost();
+        $post->removeFile($file);
+        $this->postRepository->update($post);
+        return $post;
     }
 }

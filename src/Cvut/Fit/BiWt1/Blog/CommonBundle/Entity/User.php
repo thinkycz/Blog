@@ -44,6 +44,7 @@ class User implements UserInterface, CoreUserInterface
     /**
      * @var Collection<PostInterface>
      * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $posts;
 

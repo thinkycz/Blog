@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -15,12 +16,11 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('BlogCommonBundle:Post')->findAll();
+        $blogService = $this->get("cvut_fit_biwt1_blog");
+        $entities = $blogService->findAllPosts();
 
         return array(
-            'entities' => $entities,
+            'entities' => $entities
         );
     }
 
@@ -33,17 +33,12 @@ class DefaultController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $blogService = $this->get("cvut_fit_biwt1_blog");
 
-        $entity = $em->getRepository('BlogCommonBundle:Post')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Post entity.');
-        }
+        $entity = $blogService->findPost($id);
 
         return array(
             'entity'      => $entity
         );
     }
-
 }

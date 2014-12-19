@@ -208,22 +208,11 @@ class PostController extends Controller
      * @Route("/{id}", name="admin_post_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BlogCommonBundle:Post')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Post entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
+        $blogService = $this->get("cvut_fit_biwt1_blog");
+        $post = $blogService->findPost($id);
+        $blogService->deletePost($post);
 
         return $this->redirect($this->generateUrl('admin_post'));
     }

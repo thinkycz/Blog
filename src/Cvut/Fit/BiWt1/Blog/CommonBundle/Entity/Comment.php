@@ -35,6 +35,7 @@ class Comment implements CommentInterface
      * Autor, ktery komentar napsal
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $author;
 
@@ -42,6 +43,7 @@ class Comment implements CommentInterface
      * Zapisek k nemuz komentar prislusi
      * @var PostInterface
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $post;
 
@@ -57,6 +59,7 @@ class Comment implements CommentInterface
      * Potomci komentare. Nepovinny.
      * @var CommentInterface
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $children;
 
@@ -85,6 +88,7 @@ class Comment implements CommentInterface
      * Kolekce souboru vztahujici se ke komentari
      * @var Collection<FileInterface>
      * @ORM\OneToMany(targetEntity="File", mappedBy="comment")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $files;
 

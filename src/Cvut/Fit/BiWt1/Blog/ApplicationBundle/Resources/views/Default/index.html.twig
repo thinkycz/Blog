@@ -1,21 +1,11 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <div class="header">
-        <nav>
-            <ul class="nav nav-pills pull-right">
-                <li role="presentation" class="active"><a href="{{ path("index") }}">Posts</a></li>
-                <li role="presentation"><a href="#">Log in</a></li>
-            </ul>
-        </nav>
-        <h1 class=text-info>My little blog</h1>
-    </div>
-
     <div class="col-md-12">
         {% for entity in entities %}
             <div class="panel panel-default panel-body">
                 <h2>
-                    <a href="#">{{ entity.title }}</a>
+                    <a href="{{ path("post_show", {"id": entity.id}) }}">{{ entity.title }}</a>
                 </h2>
                 <p>Author: {{ entity.author }}</p>
                 <p><span class="glyphicon glyphicon-time"></span> Published {{ entity.publishFrom|date('d.m.Y') }}</p>

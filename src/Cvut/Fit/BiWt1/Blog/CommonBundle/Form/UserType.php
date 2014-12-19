@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class FileType extends AbstractType
+class UserType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,11 +16,7 @@ class FileType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('created')
-            ->add('internetMediaType')
-            ->add('data')
-            ->add('post')
-            ->add('comment')
+            ->add('password')
         ;
     }
     
@@ -30,7 +26,7 @@ class FileType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\File'
+            'data_class' => 'Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\User'
         ));
     }
 
@@ -39,6 +35,6 @@ class FileType extends AbstractType
      */
     public function getName()
     {
-        return 'cvut_fit_biwt1_blog_commonbundle_file';
+        return 'cvut_fit_biwt1_blog_commonbundle_user';
     }
 }

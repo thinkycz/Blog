@@ -7,21 +7,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Post;
-use Cvut\Fit\BiWt1\Blog\CommonBundle\Form\PostType;
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\User;
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Form\UserType;
 
 /**
- * Post controller.
+ * User controller.
  *
- * @Route("/admin/post")
+ * @Route("/admin/user")
  */
-class PostController extends Controller
+class UserController extends Controller
 {
 
     /**
-     * Lists all Post entities.
+     * Lists all User entities.
      *
-     * @Route("/", name="admin_post")
+     * @Route("/", name="admin_user")
      * @Method("GET")
      * @Template()
      */
@@ -29,22 +29,22 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('BlogCommonBundle:Post')->findAll();
+        $entities = $em->getRepository('BlogCommonBundle:User')->findAll();
 
         return array(
             'entities' => $entities,
         );
     }
     /**
-     * Creates a new Post entity.
+     * Creates a new User entity.
      *
-     * @Route("/", name="admin_post_create")
+     * @Route("/", name="admin_user_create")
      * @Method("POST")
-     * @Template("BlogCommonBundle:Post:new.html.twig")
+     * @Template("BlogCommonBundle:User:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Post();
+        $entity = new User();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -53,7 +53,7 @@ class PostController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_post_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_user_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -63,16 +63,16 @@ class PostController extends Controller
     }
 
     /**
-     * Creates a form to create a Post entity.
+     * Creates a form to create a User entity.
      *
-     * @param Post $entity The entity
+     * @param User $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Post $entity)
+    private function createCreateForm(User $entity)
     {
-        $form = $this->createForm(new PostType(), $entity, array(
-            'action' => $this->generateUrl('admin_post_create'),
+        $form = $this->createForm(new UserType(), $entity, array(
+            'action' => $this->generateUrl('admin_user_create'),
             'method' => 'POST',
         ));
 
@@ -82,15 +82,15 @@ class PostController extends Controller
     }
 
     /**
-     * Displays a form to create a new Post entity.
+     * Displays a form to create a new User entity.
      *
-     * @Route("/new", name="admin_post_new")
+     * @Route("/new", name="admin_user_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Post();
+        $entity = new User();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -100,9 +100,9 @@ class PostController extends Controller
     }
 
     /**
-     * Finds and displays a Post entity.
+     * Finds and displays a User entity.
      *
-     * @Route("/{id}", name="admin_post_show")
+     * @Route("/{id}", name="admin_user_show")
      * @Method("GET")
      * @Template()
      */
@@ -110,10 +110,10 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BlogCommonBundle:Post')->find($id);
+        $entity = $em->getRepository('BlogCommonBundle:User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Post entity.');
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -125,9 +125,9 @@ class PostController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Post entity.
+     * Displays a form to edit an existing User entity.
      *
-     * @Route("/{id}/edit", name="admin_post_edit")
+     * @Route("/{id}/edit", name="admin_user_edit")
      * @Method("GET")
      * @Template()
      */
@@ -135,10 +135,10 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BlogCommonBundle:Post')->find($id);
+        $entity = $em->getRepository('BlogCommonBundle:User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Post entity.');
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -152,16 +152,16 @@ class PostController extends Controller
     }
 
     /**
-    * Creates a form to edit a Post entity.
+    * Creates a form to edit a User entity.
     *
-    * @param Post $entity The entity
+    * @param User $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Post $entity)
+    private function createEditForm(User $entity)
     {
-        $form = $this->createForm(new PostType(), $entity, array(
-            'action' => $this->generateUrl('admin_post_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new UserType(), $entity, array(
+            'action' => $this->generateUrl('admin_user_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -170,20 +170,20 @@ class PostController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Post entity.
+     * Edits an existing User entity.
      *
-     * @Route("/{id}", name="admin_post_update")
+     * @Route("/{id}", name="admin_user_update")
      * @Method("PUT")
-     * @Template("BlogCommonBundle:Post:edit.html.twig")
+     * @Template("BlogCommonBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BlogCommonBundle:Post')->find($id);
+        $entity = $em->getRepository('BlogCommonBundle:User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Post entity.');
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -193,7 +193,7 @@ class PostController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_post_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_user_edit', array('id' => $id)));
         }
 
         return array(
@@ -203,9 +203,9 @@ class PostController extends Controller
         );
     }
     /**
-     * Deletes a Post entity.
+     * Deletes a User entity.
      *
-     * @Route("/{id}", name="admin_post_delete")
+     * @Route("/{id}", name="admin_user_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -215,21 +215,21 @@ class PostController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BlogCommonBundle:Post')->find($id);
+            $entity = $em->getRepository('BlogCommonBundle:User')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Post entity.');
+                throw $this->createNotFoundException('Unable to find User entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('admin_post'));
+        return $this->redirect($this->generateUrl('admin_user'));
     }
 
     /**
-     * Creates a form to delete a Post entity by id.
+     * Creates a form to delete a User entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -238,7 +238,7 @@ class PostController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_post_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('admin_user_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: thinky
- * Date: 20.11.14
- * Time: 11:50
+ * Date: 19.12.14
+ * Time: 17:22
  */
 
 namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Service;
@@ -12,23 +12,10 @@ use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\CommentInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\FileInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\TagInterface;
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Service\BlogInterface;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
-use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostRepository;
 
-class BlogService implements BlogInterface
-{
-    protected $postRepository;
-
-    function __construct(PostRepository $postRepository)
-    {
-        $this->postRepository = $postRepository;
-    }
-
-    public function findAllPosts()
-    {
-        return $this->postRepository->findAll();
-    }
+class BlogService implements BlogInterface {
 
     /**
      * Vytvori novy tag, pokud neexistuje
@@ -77,7 +64,7 @@ class BlogService implements BlogInterface
     /**
      * Najde a vrati tagy podle kriterii
      *
-     * @param mixed $criteria
+     * @param mixed $criteria - cast QueryBuilderu, ktera se pouzije v QueryBuilder::andWhere
      * @return Collection<TagInterface>
      */
     public function findTagBy($criteria)
@@ -126,13 +113,13 @@ class BlogService implements BlogInterface
      */
     public function findPost($id)
     {
-        return $this->postRepository->find($id);
+        // TODO: Implement findPost() method.
     }
 
     /**
      * Najde zapisky podle kriterii a vrati
      *
-     * @param mixed $criteria
+     * @param mixed $criteria - cast QueryBuilderu, ktera se pouzije v QueryBuilder::andWhere
      * @return Collection<PostInterface>
      */
     public function findPostBy($criteria)
@@ -189,5 +176,4 @@ class BlogService implements BlogInterface
     {
         // TODO: Implement deleteFile() method.
     }
-
 }

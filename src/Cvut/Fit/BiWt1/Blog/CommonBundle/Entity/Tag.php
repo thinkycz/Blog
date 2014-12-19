@@ -112,4 +112,9 @@ class Tag implements TagInterface
 	{
 		$this->posts->removeElement($post);
 	}
+
+    public function  __toString()
+    {
+        return $this->title;
+    }
 }

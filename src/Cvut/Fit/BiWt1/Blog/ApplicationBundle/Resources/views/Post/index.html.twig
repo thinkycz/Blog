@@ -1,14 +1,53 @@
-{% extends "BlogApplicationBundle::layout.html.twig" %}
+{% extends '::base.html.twig' %}
 
-{% block body %}
-    <h1>Můj blog</h1>
-    {% if posts|length > 0 %}
-        {% for post in posts %}
-            <h2><a href="{{ path('detailAction', {'id': post.id}) }}">{{ post.title }}</a></h2>
-            <p>{{ post.author.name }} - {{ post.created | date('j. n. Y H:i') }}</p>
-            <p>{{ post.text[:50] }}</p>
+{% block body -%}
+    <h1>Post list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Text</th>
+                <th>Private</th>
+                <th>Created</th>
+                <th>Modified</th>
+                <th>Publishfrom</th>
+                <th>Publishto</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('admin_post_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.title }}</td>
+                <td>{{ entity.text }}</td>
+                <td>{{ entity.private }}</td>
+                <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.modified %}{{ entity.modified|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.publishFrom %}{{ entity.publishFrom|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.publishTo %}{{ entity.publishTo|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('admin_post_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_post_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
         {% endfor %}
-    {% else %}
-        <p>Žádné příspěvky ještě neexistují.</p>
-    {% endif %}
-{% endblock %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('admin_post_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

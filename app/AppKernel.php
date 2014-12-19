@@ -18,8 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Cvut\Fit\BiWt1\Blog\CommonBundle\BlogCommonBundle(),
+            new Oneup\FlysystemBundle\OneupFlysystemBundle(),
             new Cvut\Fit\BiWt1\Blog\ApplicationBundle\BlogApplicationBundle(),
-            new Oneup\FlysystemBundle\OneupFlysystemBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

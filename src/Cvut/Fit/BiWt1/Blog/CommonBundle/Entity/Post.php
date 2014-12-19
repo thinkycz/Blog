@@ -42,7 +42,7 @@ class Post implements PostInterface
 	/**
 	 * Text (obsah) prispevku
 	 * @var string
-	 * @ORM\Column(type="text")
+	 * @ORM\Column(type="string")
 	 */
     protected $text;
 
@@ -289,6 +289,7 @@ class Post implements PostInterface
 
     /**
      * @param FileInterface $file
+     * @return mixed
      */
     public function addFile(FileInterface $file)
     {
@@ -333,7 +334,7 @@ class Post implements PostInterface
 	}
 
 	/**
-	 * @param CommentInterface $comment
+	 * @param TagInterface $tag
 	 * @return mixed
 	 */
 	public function removeTag(TagInterface $tag)

@@ -188,4 +188,9 @@ class User implements UserInterface, CoreUserInterface
     {
 
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

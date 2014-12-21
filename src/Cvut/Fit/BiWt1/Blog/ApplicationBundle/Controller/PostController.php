@@ -27,14 +27,15 @@ class PostController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $blogService = $this->get("cvut_fit_biwt1_blog");
 
-        $entities = $em->getRepository('BlogCommonBundle:Post')->findAll();
+        $entities = $blogService->findAllPosts();
 
         return array(
             'entities' => $entities,
         );
     }
+
     /**
      * Creates a new Post entity.
      *
@@ -44,41 +45,28 @@ class PostController extends Controller
      */
     public function createAction(Request $request)
     {
+        $blogService = $this->get("cvut_fit_biwt1_blog");
+
         $entity = new Post();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+        $entity->setAuthor($this->getUser());
+        $entity->setCreated(new \DateTime());
+        $entity->setModified(new \DateTime());
+        $entity->setPublishFrom(new \DateTime());
+        $entity->setPublishTo(new \DateTime());
+        $entity->setTitle($request->get('title'));
+        $entity->setText($request->get('text'));
 
-            return $this->redirect($this->generateUrl('admin_post_show', array('id' => $entity->getId())));
-        }
+        if($request->get('private'))
+            $entity->setPrivate(true);
+        else
+            $entity->setPrivate(false);
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
 
-    /**
-     * Creates a form to create a Post entity.
-     *
-     * @param Post $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Post $entity)
-    {
-        $form = $this->createForm(new PostType(), $entity, array(
-            'action' => $this->generateUrl('admin_post_create'),
-            'method' => 'POST',
-        ));
+        $blogService->createPost($entity);
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        return $this->redirect($this->generateUrl('admin_post_show', array('id' => $entity->getId())));
 
-        return $form;
     }
 
     /**
@@ -90,13 +78,7 @@ class PostController extends Controller
      */
     public function newAction()
     {
-        $entity = new Post();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return array();
     }
 
     /**
@@ -108,19 +90,16 @@ class PostController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $blogService = $this->get("cvut_fit_biwt1_blog");
 
-        $entity = $em->getRepository('BlogCommonBundle:Post')->find($id);
+        $entity = $blogService->findPost($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -133,80 +112,57 @@ class PostController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $blogService = $this->get("cvut_fit_biwt1_blog");
 
-        $entity = $em->getRepository('BlogCommonBundle:Post')->find($id);
+        $entity = $blogService->findPost($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
-    /**
-    * Creates a form to edit a Post entity.
-    *
-    * @param Post $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Post $entity)
-    {
-        $form = $this->createForm(new PostType(), $entity, array(
-            'action' => $this->generateUrl('admin_post_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
     /**
      * Edits an existing Post entity.
      *
      * @Route("/{id}", name="admin_post_update")
-     * @Method("PUT")
+     * @Method("POST")
      * @Template("BlogCommonBundle:Post:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $blogService = $this->get("cvut_fit_biwt1_blog");
 
-        $entity = $em->getRepository('BlogCommonBundle:Post')->find($id);
+        $entity = $blogService->findPost($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+        $entity->setAuthor($this->getUser());
+        $entity->setModified(new \DateTime());
+        $entity->setPublishFrom(new \DateTime($request->get('publishfrom')));
+        $entity->setPublishTo(new \DateTime($request->get('publishto')));
+        $entity->setTitle($request->get('title'));
+        $entity->setText($request->get('text'));
 
-        if ($editForm->isValid()) {
-            $em->flush();
+        if($request->get('private'))
+            $entity->setPrivate(true);
+        else
+            $entity->setPrivate(false);
 
-            return $this->redirect($this->generateUrl('admin_post_edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        $blogService->updatePost($entity);
+        return $this->redirect($this->generateUrl('admin_post'));
     }
+
     /**
      * Deletes a Post entity.
      *
-     * @Route("/{id}", name="admin_post_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="admin_post_delete")
+     * @Method("GET")
      */
     public function deleteAction($id)
     {
@@ -215,22 +171,5 @@ class PostController extends Controller
         $blogService->deletePost($post);
 
         return $this->redirect($this->generateUrl('admin_post'));
-    }
-
-    /**
-     * Creates a form to delete a Post entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_post_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
     }
 }

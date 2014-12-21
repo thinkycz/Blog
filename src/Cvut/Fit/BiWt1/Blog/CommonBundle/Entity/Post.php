@@ -42,7 +42,7 @@ class Post implements PostInterface
 	/**
 	 * Text (obsah) prispevku
 	 * @var string
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", length=1000000)
 	 */
     protected $text;
 

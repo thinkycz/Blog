@@ -2,7 +2,7 @@
 
 {% block body -%}
 
-    <br>
+<h2>Showing a user</h2>
 
 <div class="panel panel-default">
 
@@ -25,9 +25,9 @@
 
 </div>
 
-    <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default"><a href="{{ path('admin_user') }}">Back to the list</a></button>
-        <button type="button" class="btn btn-default"><a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">Edit</a></button>
-        <button type="button" class="btn btn-default"><a href="{{ path('admin_user_delete', { 'id': entity.id }) }}">Delete</a></button>
-    </div>
+<div class="btn-group" role="group" aria-label="...">
+    <button type="button" class="btn btn-default"><a href="{{ path('admin_user') }}">Back to the list</a></button>
+    <button type="button" class="btn btn-default"><a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">Edit</a></button>
+    <button type="button" class="btn btn-default"><a href="{{ path('admin_user_delete', { 'id': entity.id }) }}">Delete</a></button>
+</div>
 {% endblock %}

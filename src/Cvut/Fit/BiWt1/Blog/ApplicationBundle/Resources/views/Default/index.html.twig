@@ -11,7 +11,7 @@
                 <p><span class="glyphicon glyphicon-time"></span> Published {{ entity.publishFrom|date('d.m.Y') }}</p>
                 <hr>
                 <p>
-                    {{ entity.text|slice(0, 100) }}
+                    {{ entity.text|slice(0, 200) }}
                 </p>
                 <a class="btn btn-primary" href="{{ path("post_show", {"id": entity.id}) }}">Read more <span class="glyphicon glyphicon-chevron-right"></span> </a>
             </div>

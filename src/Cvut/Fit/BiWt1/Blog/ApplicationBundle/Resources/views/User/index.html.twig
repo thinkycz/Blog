@@ -2,36 +2,37 @@
 
 {% block body -%}
 
-    <br>
+<h2>List of users</h2>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            List of users &bull; <a href="{{ path('admin_user_new') }}">Create a new user</a>
-        </div>
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Password</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for entity in entities %}
-                <tr>
-                    <td><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                    <td>{{ entity.name }}</td>
-                    <td>{{ entity.password }}</td>
-                    <td>
-                        <a href="{{ path('admin_user_show', { 'id': entity.id }) }}">show</a>
-                        <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">edit</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a href="{{ path('admin_user_new') }}">Create a new user</a>
     </div>
 
-    {% endblock %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Password</th>
+            <th width="200">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.password }}</td>
+                <td>
+                    <a href="{{ path('admin_user_show', { 'id': entity.id }) }}" class="btn btn-primary btn-xs">Show</a>
+                    <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}" class="btn btn-primary btn-xs">Edit</a>
+                    <a href="{{ path('admin_user_delete', { 'id': entity.id }) }}" class="btn btn-primary btn-xs">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

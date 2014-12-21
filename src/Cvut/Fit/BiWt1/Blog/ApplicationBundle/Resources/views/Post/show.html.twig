@@ -1,12 +1,15 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Post</h1>
 
-    <table class="record_properties">
+<h2>Showing a post</h2>
+
+<div class="panel panel-default">
+
+    <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
@@ -14,43 +17,36 @@
                 <td>{{ entity.title }}</td>
             </tr>
             <tr>
-                <th>Text</th>
-                <td>{{ entity.text }}</td>
-            </tr>
-            <tr>
                 <th>Private</th>
-                <td>{{ entity.private }}</td>
+                <td>{% if entity.private %}<span class="glyphicon glyphicon-check"></span>{% else %}<span class="glyphicon glyphicon-unchecked"></span>{% endif %}</td>
             </tr>
             <tr>
                 <th>Created</th>
-                <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.created|date('d.m.Y H:i') }}</td>
             </tr>
             <tr>
                 <th>Modified</th>
-                <td>{{ entity.modified|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.modified|date('d.m.Y H:i') }}</td>
             </tr>
             <tr>
-                <th>Publishfrom</th>
-                <td>{{ entity.publishFrom|date('Y-m-d H:i:s') }}</td>
+                <th>Publish from</th>
+                <td>{{ entity.publishFrom|date('d.m.Y H:i') }}</td>
             </tr>
             <tr>
-                <th>Publishto</th>
-                <td>{{ entity.publishTo|date('Y-m-d H:i:s') }}</td>
+                <th>Publish to</th>
+                <td>{{ entity.publishTo|date('d.m.Y H:i') }}</td>
             </tr>
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_post') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('admin_post_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+</div>
+
+<div class="well">{{ entity.text }}</div>
+
+<div class="btn-group" role="group" aria-label="...">
+    <button type="button" class="btn btn-default"><a href="{{ path('admin_post') }}">Back to the list</a></button>
+    <button type="button" class="btn btn-default"><a href="{{ path('admin_post_edit', { 'id': entity.id }) }}">Edit</a></button>
+    <button type="button" class="btn btn-default"><a href="{{ path('admin_post_delete', { 'id': entity.id }) }}">Delete</a></button>
+</div>
+
 {% endblock %}

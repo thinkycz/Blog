@@ -2,11 +2,11 @@
 
 {% block body -%}
 
-<br>
+<h2>List of posts</h2>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        List of posts &bull; <a href="{{ path('admin_post_new') }}">Create a new post</a>
+        <a href="{{ path('admin_post_new') }}">Create a new post</a>
     </div>
 
     <table class="table">
@@ -14,10 +14,10 @@
         <tr>
             <th>#</th>
             <th>Title</th>
+            <th>Author</th>
             <th>Private</th>
-            <th>Created</th>
-            <th>Modified</th>
-            <th>Actions</th>
+            <th>Published</th>
+            <th width="200">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -25,16 +25,18 @@
             <tr>
                 <td><a href="{{ path('admin_post_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.title }}</td>
+                <td>{{ entity.author.name }}</td>
                 <td>{% if entity.private %}<span class="glyphicon glyphicon-check"></span>{% else %}<span class="glyphicon glyphicon-unchecked"></span>{% endif %}</td>
-                <td>{% if entity.created %}{{ entity.created|date('d.m.Y H:i') }}{% endif %}</td>
-                <td>{% if entity.modified %}{{ entity.modified|date('d.m.Y H:i') }}{% endif %}</td>
+                <td>{% if 'now'|date >= entity.publishfrom|date and 'now'|date <= entity.publishto|date %}<span class="glyphicon glyphicon-check"></span>{% else %}<span class="glyphicon glyphicon-unchecked"></span>{% endif %}</td>
                 <td>
-                    <a href="{{ path('admin_post_show', { 'id': entity.id }) }}">show</a>
-                    <a href="{{ path('admin_post_edit', { 'id': entity.id }) }}">edit</a>
+                    <a href="{{ path('admin_post_show', { 'id': entity.id }) }}" class="btn btn-primary btn-xs">Show</a>
+                    <a href="{{ path('admin_post_edit', { 'id': entity.id }) }}" class="btn btn-primary btn-xs">Edit</a>
+                    <a href="{{ path('admin_post_delete', { 'id': entity.id }) }}" class="btn btn-primary btn-xs">Delete</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
-    {% endblock %}
+
+{% endblock %}

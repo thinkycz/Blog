@@ -1,43 +1,37 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>User list</h1>
 
-    <table class="records_list">
-        <thead>
+    <br>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            List of users &bull; <a href="{{ path('admin_user_new') }}">Create a new user</a>
+        </div>
+
+        <table class="table">
+            <thead>
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <th>Name</th>
                 <th>Password</th>
                 <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.password }}</td>
-                <td>
-                <ul>
-                    <li>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                    <td>{{ entity.name }}</td>
+                    <td>{{ entity.password }}</td>
+                    <td>
                         <a href="{{ path('admin_user_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
                         <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-        <ul>
-        <li>
-            <a href="{{ path('admin_user_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}

@@ -57,4 +57,8 @@ interface UserInterface
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getPosts();
+
+    public function getPassword();
+
+    public function setPassword($password);
 }

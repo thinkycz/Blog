@@ -108,7 +108,7 @@ class Post implements PostInterface
 	/**
 	 * Kolekce tagu vztahujici se k prispevku
 	 * @var Collection
-	 * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts")
+	 * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="CASCADE")
      * @ORM\JoinTable(name="blog_post_tag")
 	 */
@@ -333,7 +333,6 @@ class Post implements PostInterface
 	public function addTag(TagInterface $tag)
 	{
 		$this->tags->add($tag);
-		$tag->addPost($this);
 	}
 
 	/**

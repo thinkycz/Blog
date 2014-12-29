@@ -66,7 +66,7 @@ class Comment implements CommentInterface
     /**
      * Text komentare
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", length=1000000)
      */
     protected $text;
 

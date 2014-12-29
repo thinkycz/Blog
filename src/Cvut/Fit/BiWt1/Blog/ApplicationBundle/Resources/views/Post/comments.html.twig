@@ -1,0 +1,22 @@
+{% for comment in comments %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title">{{ comment.author }} wrote: </span>
+        </div>
+        <div class="panel-body">
+            <form method="post" action="{{ path('admin_comment_edit', { 'idComment': comment.id, 'idPost': entity.id }) }}">
+                <div class="input-group">
+                    <input type="text" class="form-control" value="{{ comment.text }}" name="text">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Edit</button>
+                        <a href="{{ path('admin_comment_delete', { 'idComment': comment.id, 'idPost': entity.id }) }}" class="btn btn-default">Delete</a>
+                    </span>
+                </div>
+            </form>
+            <br>
+            {% if comment.children %}
+                {% include "BlogApplicationBundle:Post:comments.html.twig" with {'comments': comment.children } %}
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

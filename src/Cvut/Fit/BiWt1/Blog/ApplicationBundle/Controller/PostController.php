@@ -2,13 +2,14 @@
 
 namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Controller;
 
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Tag;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Post;
-use Cvut\Fit\BiWt1\Blog\CommonBundle\Form\PostType;
 
 /**
  * Post controller.
@@ -56,6 +57,20 @@ class PostController extends Controller
         $entity->setPublishTo(new \DateTime());
         $entity->setTitle($request->get('title'));
         $entity->setText($request->get('text'));
+
+        $tags = explode("|", $request->get('tags'));
+
+        foreach($tags as $tagStr)
+        {
+            if($blogService->findTagByString(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr))))
+                $tag = $blogService->findTagByString(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr)));
+            else
+                $tag = new Tag();
+
+            $tag->addPost($entity);
+            $tag->setTitle($tagStr);
+            $entity->addTag($tag);
+        }
 
         if($request->get('private'))
             $entity->setPrivate(true);
@@ -149,6 +164,27 @@ class PostController extends Controller
         $entity->setTitle($request->get('title'));
         $entity->setText($request->get('text'));
 
+        foreach($entity->getTags() as $tag)
+        {
+            $entity->removeTag($tag);
+            $tag->removePost($entity);
+        }
+
+
+        $tags = explode("|", $request->get('tags'));
+
+        foreach($tags as $tagStr)
+        {
+            if($blogService->findTagByString(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr))))
+                $tag = $blogService->findTagByString(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr)));
+            else
+                $tag = new Tag();
+
+            $tag->addPost($entity);
+            $tag->setTitle($tagStr);
+            $entity->addTag($tag);
+        }
+
         if($request->get('private'))
             $entity->setPrivate(true);
         else
@@ -171,5 +207,40 @@ class PostController extends Controller
         $blogService->deletePost($post);
 
         return $this->redirect($this->generateUrl('admin_post'));
+    }
+
+    /**
+     * Deletes a comment
+     *
+     * @Route("/{idPost}/delete/{idComment}", name="admin_comment_delete")
+     * @Method("GET")
+     * @param $idPost, $idComment
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function commentDeleteAction($idPost, $idComment)
+    {
+        $blogService = $this->get("cvut_fit_biwt1_blog");
+        $comment = $blogService->findComment($idComment);
+        $blogService->deleteComment($comment);
+
+        return $this->redirect($this->generateUrl('admin_post_show', array('id' => $idPost)));
+    }
+
+    /**
+     * Edits a comment
+     *
+     * @Route("/{idPost}/edit/{idComment}", name="admin_comment_edit")
+     * @param Request $request
+     * @param $idPost, $idComment
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function commentEditAction(Request $request, $idPost, $idComment)
+    {
+        $blogService = $this->get("cvut_fit_biwt1_blog");
+        $comment = $blogService->findComment($idComment);
+        $comment->setText($request->get('text'));
+        $blogService->updateComment($comment);
+
+        return $this->redirect($this->generateUrl('admin_post_show', array('id' => $idPost)));
     }
 }

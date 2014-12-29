@@ -1,0 +1,28 @@
+{% for comment in comments %}
+    <blockquote>
+        <p>{{ comment.text }}</p>
+        <footer>By <cite title="Source Title">{{ comment.author }}</cite> &bull; <a onclick="setParentOfComment({{ comment.id }})" onmouseover="" style="cursor: pointer;">react</a></footer>
+        {% if comment.children %}
+            {% include "BlogApplicationBundle:Default:comments.html.twig" with {'comments': comment.children } %}
+        {% endif %}
+    </blockquote>
+{% endfor %}
+
+{% block javascript %}
+    <script>
+        function setParentOfComment(id)
+        {
+            var text = document.getElementById("parent");
+            text.innerHTML = "comment #" + id;
+            var input = document.getElementById("hidden");
+            input.value = id;
+        }
+        function unsetParent()
+        {
+            var text = document.getElementById("parent");
+            text.innerHTML = "the article";
+            var input = document.getElementById("hidden");
+            input.value = "article";
+        }
+    </script>
+{% endblock %}

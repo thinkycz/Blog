@@ -9,9 +9,23 @@
             <p>Author: {{ entity.author }}</p>
             <p><span class="glyphicon glyphicon-time"></span> Published {{ entity.publishFrom|date('d.m.Y') }}</p>
             <hr>
-            <p>
+            <p style="font-size: large">
                 {{ entity.text }}
             </p>
+            <hr>
+            {% include "BlogApplicationBundle:Default:comments.html.twig" with { 'comments': entity.comments } %}
         </div>
+
+        {% if is_granted('ROLE_USER') %}
+        <div class="panel panel-default panel-body">
+            <form method="post" action="{{ path("post_comment", { 'id': entity.id }) }}">
+                <label for="inputHelpBlock">Comment text</label>
+                <input type="text" id="inputHelpBlock" class="form-control" aria-describedby="helpBlock" name="text">
+                <span id="helpBlock" class="help-block">You are now commenting as {{ app.security.token.user }} and reacting to <a id="parent" onclick="unsetParent()" onmouseover="" style="cursor: pointer;">the article</a></span>
+                <input type="hidden" name="parent" value="article" id="hidden">
+                <button type="submit" class="btn btn-primary">Send comment</button>
+            </form>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

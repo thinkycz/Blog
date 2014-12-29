@@ -89,6 +89,6 @@ class UserService implements UserInterface {
      */
     public function findBy($criteria)
     {
-        return $this->userRepository->findBy($criteria);
+        return $this->userRepository->matching($criteria);
     }
 }

@@ -25,3 +25,4 @@
 .externalToolBuilders
 .idea
 *.sw*
+/nbproject/private/

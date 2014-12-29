@@ -5,6 +5,7 @@ services:
     arguments:
       - '@cvut_fit_biwt1_blog_common.repository.post'
       - '@cvut_fit_biwt1_blog_common.repository.tag'
+      - '@cvut_fit_biwt1_blog_common.repository.comment'
 
   cvut_fit_biwt1_user:
    class: 'Cvut\Fit\BiWt1\Blog\ApplicationBundle\Service\UserService'

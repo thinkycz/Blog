@@ -8,6 +8,7 @@
 
 namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Service;
 
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\CommentRepository;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostRepository;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\TagRepository;
 
@@ -22,11 +23,13 @@ class BlogService implements BlogInterface {
 
     protected $postRepository;
     protected $tagRepository;
+    protected $commentRepository;
 
-    public function __construct(PostRepository $postRepository, TagRepository $tagRepository)
+    public function __construct(PostRepository $postRepository, TagRepository $tagRepository, CommentRepository $commentRepository)
     {
         $this->tagRepository = $tagRepository;
         $this->postRepository = $postRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     /**
@@ -84,7 +87,18 @@ class BlogService implements BlogInterface {
      */
     public function findTagBy($criteria)
     {
-        return $this->tagRepository->findBy($criteria);
+        return $this->tagRepository->matching($criteria);
+    }
+
+    /**
+     * Najde a vrati tagy podle kriterii
+     *
+     * @param mixed $criteria - cast QueryBuilderu, ktera se pouzije v QueryBuilder::andWhere
+     * @return TagInterface
+     */
+    public function findTagByString($criteria)
+    {
+        return $this->tagRepository->matching($criteria)->first();
     }
 
     /**
@@ -142,12 +156,27 @@ class BlogService implements BlogInterface {
      */
     public function findPostBy($criteria)
     {
-        return $this->postRepository->findBy($criteria);
+        return $this->postRepository->matching($criteria);
     }
 
     public function findAllPosts()
     {
         return $this->postRepository->findAll();
+    }
+
+    /**
+     * @param $id
+     * @return CommentInterface
+     */
+    public function findComment($id)
+    {
+        return $this->commentRepository->find($id);
+    }
+
+    public function updateComment(CommentInterface $comment)
+    {
+        $this->commentRepository->update($comment);
+        return $comment;
     }
 
     /**
@@ -161,9 +190,13 @@ class BlogService implements BlogInterface {
     public function addComment(PostInterface $post, CommentInterface $comment,
                                CommentInterface $parentComment = null)
     {
-        $comment->setParent($parentComment);
-        $comment->setPost($post);
+        if($parentComment)
+            $comment->setParent($parentComment);
+        else
+            $comment->setPost($post);
+
         $post->addComment($comment);
+        $this->commentRepository->create($comment);
         $this->postRepository->update($post);
         return $post;
     }
@@ -177,8 +210,8 @@ class BlogService implements BlogInterface {
     public function deleteComment(CommentInterface $comment)
     {
         $post = $comment->getPost();
-        $post->removeComment($comment);
-        $this->postRepository->update($post);
+        if($post) $post->removeComment($comment);
+        $this->commentRepository->remove($comment);
         return $post;
     }
 

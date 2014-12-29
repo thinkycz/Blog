@@ -36,6 +36,14 @@
                 <th>Publish to</th>
                 <td>{{ entity.publishTo|date('d.m.Y H:i') }}</td>
             </tr>
+            <tr>
+                <th>Tags</th>
+                <td>{% for tag in entity.tags %}{{ tag }} | {% endfor %}</td>
+            </tr>
+            <tr>
+                <th>Files</th>
+                <td>{% for file in entity.files %}<a href="{{ file.data }}">{{ file.name }}</a> | {% endfor %}</td>
+            </tr>
         </tbody>
     </table>
 
@@ -48,5 +56,9 @@
     <button type="button" class="btn btn-default"><a href="{{ path('admin_post_edit', { 'id': entity.id }) }}">Edit</a></button>
     <button type="button" class="btn btn-default"><a href="{{ path('admin_post_delete', { 'id': entity.id }) }}">Delete</a></button>
 </div>
+
+    <br><br>
+
+    {% include "BlogApplicationBundle:Post:comments.html.twig" with { 'comments': entity.comments } %}
 
 {% endblock %}

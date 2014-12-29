@@ -9,6 +9,7 @@
 namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Service;
 
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\CommentRepository;
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\FileRepository;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostRepository;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\TagRepository;
 
@@ -18,18 +19,24 @@ use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\TagInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Service\BlogInterface;
 use Doctrine\Common\Collections\Collection;
+use League\Flysystem\Filesystem;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class BlogService implements BlogInterface {
 
     protected $postRepository;
     protected $tagRepository;
     protected $commentRepository;
+    protected $fileRepository;
+    protected $fileSystem;
 
-    public function __construct(PostRepository $postRepository, TagRepository $tagRepository, CommentRepository $commentRepository)
+    public function __construct(PostRepository $postRepository, TagRepository $tagRepository, CommentRepository $commentRepository, FileRepository $fileRepository, Filesystem $fileSystem)
     {
         $this->tagRepository = $tagRepository;
         $this->postRepository = $postRepository;
         $this->commentRepository = $commentRepository;
+        $this->fileRepository = $fileRepository;
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -133,6 +140,10 @@ class BlogService implements BlogInterface {
      */
     public function deletePost(PostInterface $post)
     {
+        foreach($post->getFiles() as $file)
+        {
+            $this->deleteFile($file);
+        }
         $this->postRepository->remove($post);
         return $post;
     }
@@ -226,10 +237,22 @@ class BlogService implements BlogInterface {
     public function addPostFile(FileInterface $file, PostInterface $post,
                                 CommentInterface $comment = null)
     {
+        $uploadedFile = $file->getData();
+        $file->setInternetMediaType($uploadedFile->getClientMimeType());
+
         $file->setPost($post);
         $file->setComment($comment);
+        $file->setName($uploadedFile->getClientOriginalName());
         $post->addFile($file);
+
+        $this->fileRepository->create($file);
         $this->postRepository->update($post);
+
+        $this->fileSystem->put(
+            "{$post->getId()}/{$file->getName()}",
+            file_get_contents($uploadedFile->getRealPath())
+        );
+
         return $post;
     }
 
@@ -243,7 +266,15 @@ class BlogService implements BlogInterface {
     {
         $post = $file->getPost();
         $post->removeFile($file);
+
+        $this->fileRepository->remove($file);
         $this->postRepository->update($post);
+
+        $this->fileSystem->delete("{$post->getId()}/{$file->getName()}");
+        if(!$this->fileSystem->listContents("{$post->getId()}"))
+        {
+            $this->fileSystem->deleteDir("{$post->getId()}");
+        }
         return $post;
     }
 }

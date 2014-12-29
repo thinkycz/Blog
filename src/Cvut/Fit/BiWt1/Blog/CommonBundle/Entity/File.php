@@ -43,7 +43,7 @@ class File implements FileInterface
     /**
      * Zapisek, ke kteremu je soubor pripojen. Povinne!
      * @var PostInterface
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="files")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="files", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $post;
@@ -51,7 +51,7 @@ class File implements FileInterface
     /**
      * Komentar, ke kteremu je soubor pripojen. Nepovinne!
      * @var CommentInterface
-     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="files")
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="files", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     protected $comment;

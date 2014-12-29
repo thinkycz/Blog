@@ -42,7 +42,7 @@
             </tr>
             <tr>
                 <th>Files</th>
-                <td>{% for file in entity.files %}<a href="{{ file.data }}">{{ file.name }}</a> | {% endfor %}</td>
+                <td>{% for file in entity.files %}{{ file.name }} | {% endfor %}</td>
             </tr>
         </tbody>
     </table>
@@ -52,9 +52,9 @@
 <div class="well">{{ entity.text }}</div>
 
 <div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default"><a href="{{ path('admin_post') }}">Back to the list</a></button>
-    <button type="button" class="btn btn-default"><a href="{{ path('admin_post_edit', { 'id': entity.id }) }}">Edit</a></button>
-    <button type="button" class="btn btn-default"><a href="{{ path('admin_post_delete', { 'id': entity.id }) }}">Delete</a></button>
+    <a href="{{ path('admin_post') }}" class="btn btn-default">Back to the list</a>
+    <a href="{{ path('admin_post_edit', { 'id': entity.id }) }}" class="btn btn-default">Edit</a>
+    <a href="{{ path('admin_post_delete', { 'id': entity.id }) }}" class="btn btn-default">Delete</a>
 </div>
 
     <br><br>

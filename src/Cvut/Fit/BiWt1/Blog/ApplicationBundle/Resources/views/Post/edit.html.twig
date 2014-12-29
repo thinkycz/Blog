@@ -7,38 +7,38 @@
     <form class="form-horizontal" role="form" method="post" action="{{ path('admin_post_update', { 'id': entity.id }) }}">
 
         <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Title</label>
+            <label for="title" class="col-sm-2 control-label">Title</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputEmail3" placeholder="Title" name="title" value="{{ entity.title }}">
+                <input type="text" class="form-control" id="title" placeholder="Title" name="title" value="{{ entity.title }}">
             </div>
         </div>
 
         <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Publish from</label>
+            <label for="publishfrom" class="col-sm-2 control-label">Publish from</label>
             <div class="col-sm-10">
-                <input type="datetime" class="form-control" id="inputEmail3" placeholder="Format: d.m.Y H:i" name="publishfrom" value="{{ entity.publishFrom|date('d.m.Y H:i') }}">
+                <input type="text" class="form-control" id="publishfrom" placeholder="Format: d.m.Y H:i" name="publishfrom" value="{{ entity.publishFrom|date('d.m.Y H:i') }}">
             </div>
         </div>
 
         <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Publish to</label>
+            <label for="publishto" class="col-sm-2 control-label">Publish to</label>
             <div class="col-sm-10">
-                <input type="datetime" class="form-control" id="inputEmail3" placeholder="Format: d.m.Y H:i" name="publishto" value="{{ entity.publishTo|date('d.m.Y H:i') }}">
+                <input type="text" class="form-control" id="publishto" placeholder="Format: d.m.Y H:i" name="publishto" value="{{ entity.publishTo|date('d.m.Y H:i') }}">
             </div>
         </div>
 
         <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Tags</label>
+            <label for="tags" class="col-sm-2 control-label">Tags</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputEmail3" placeholder="Separate by |" name="tags" value="{% for tag in entity.tags %}{{ tag }} | {% endfor %}">
+                <input type="text" class="form-control" id="tags" placeholder="Separate by |" name="tags" value="{% for tag in entity.tags %}{{ tag }} | {% endfor %}">
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="private" {% if entity.private %}checked{% endif %}> Make this post private
+                    <label for="private">
+                        <input type="checkbox" name="private" id="private" {% if entity.private %}checked{% endif %}> Make this post private
                     </label>
                 </div>
             </div>
@@ -49,9 +49,9 @@
         <br>
 
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default"><a href="{{ path('admin_post') }}">Back to the list</a></button>
-            <button type="button" class="btn btn-default"><a href="{{ path('admin_post_delete', { 'id': entity.id }) }}">Delete</a></button>
-            <button type="submit" class="btn btn-default"><a>Update</a></button>
+            <a href="{{ path('admin_post') }}" class="btn btn-default">Back to the list</a>
+            <a href="{{ path('admin_post_delete', { 'id': entity.id }) }}" class="btn btn-default">Delete</a>
+            <button type="submit" class="btn btn-default">Update</button>
         </div>
 
     </form>

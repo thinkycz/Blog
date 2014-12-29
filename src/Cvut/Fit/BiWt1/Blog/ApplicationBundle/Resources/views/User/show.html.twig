@@ -26,8 +26,8 @@
 </div>
 
 <div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default"><a href="{{ path('admin_user') }}">Back to the list</a></button>
-    <button type="button" class="btn btn-default"><a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">Edit</a></button>
-    <button type="button" class="btn btn-default"><a href="{{ path('admin_user_delete', { 'id': entity.id }) }}">Delete</a></button>
+    <a href="{{ path('admin_user') }}" class="btn btn-default">Back to the list</a>
+    <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}" class="btn btn-default">Edit</a>
+    <a href="{{ path('admin_user_delete', { 'id': entity.id }) }}" class="btn btn-default">Delete</a>
 </div>
 {% endblock %}

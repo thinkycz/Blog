@@ -2,6 +2,7 @@
 
 namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Controller;
 
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\File;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Tag;
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Post;
+use League\Flysystem;
 
 /**
  * Post controller.
@@ -57,6 +59,14 @@ class PostController extends Controller
         $entity->setPublishTo(new \DateTime());
         $entity->setTitle($request->get('title'));
         $entity->setText($request->get('text'));
+
+        foreach($request->files->get('files') as $tmp)
+        {
+            $file = new File();
+            $file->setData($tmp);
+            $file->setCreated(new \DateTime());
+            $blogService->addPostFile($file, $entity);
+        }
 
         $tags = explode("|", $request->get('tags'));
 
@@ -106,7 +116,6 @@ class PostController extends Controller
     public function showAction($id)
     {
         $blogService = $this->get("cvut_fit_biwt1_blog");
-
         $entity = $blogService->findPost($id);
 
         if (!$entity) {

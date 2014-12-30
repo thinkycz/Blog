@@ -36,7 +36,12 @@
 			"dist": {
 				"url": "http://webdev.fit.cvut.cz/~kadleto2/composer/symfony-security.zip",
 			        "type": "zip"
-			}
+			},
+            "autoload" : {
+                "psr-0" : {
+                	"Cvut\\Fit\\Ict\\SecurityBundle" : "."
+                }
+            }
 		}
 	}
     ],

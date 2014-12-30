@@ -21,7 +21,6 @@ use Cvut\Fit\BiWt1\Blog\CommonBundle\Service\BlogInterface;
 use Doctrine\Common\Collections\Collection;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 class BlogService implements BlogInterface {
 

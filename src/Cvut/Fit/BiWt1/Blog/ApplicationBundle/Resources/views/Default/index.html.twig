@@ -2,9 +2,8 @@
 
 {% block body -%}
     <div class="col-md-12">
-        {% for entity in entities %}
+        {% for entity in entities|reverse|slice((currentpage-1)*5, 5) if date() > date(entity.publishfrom) and date() < date(entity.publishto) %}
             {% if not entity.private or is_granted('ROLE_READER') %}
-                {% if 'now'|date >= entity.publishfrom|date and 'now'|date <= entity.publishto|date %}
                     <div class="panel panel-default panel-body">
                         <h2>
                             <a href="{{ path("post_show", {"id": entity.id}) }}">{{ entity.title }}</a>
@@ -15,8 +14,11 @@
                         </p>
                         <a class="btn btn-primary" href="{{ path("post_show", {"id": entity.id}) }}">Read more <span class="glyphicon glyphicon-chevron-right"></span> </a>
                     </div>
-                {% endif %}
             {% endif %}
         {% endfor %}
+        <ul class="pager">
+            {% if currentpage > 1 %}<li class="previous"><a href="{{ path("page", {'page': currentpage-1 }) }}">&larr; Previous page</a></li>{% endif %}
+            {% if currentpage < totalpages %}<li class="next"><a href="{{ path("page", {'page': currentpage+1 }) }}">Next page &rarr;</a></li>{% endif %}
+        </ul>
     </div>
 {% endblock %}

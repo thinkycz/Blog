@@ -58,7 +58,7 @@ class User implements UserInterface, CoreUserInterface
      * @var string
      * @ORM\Column(type="string")
      */
-    protected $role;
+    protected $role = 'ROLE_ADMIN';
 
 	/**
 	 * konstruktor - inicializuje kolekce

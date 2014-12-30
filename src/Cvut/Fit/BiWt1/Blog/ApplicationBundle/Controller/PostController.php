@@ -57,7 +57,7 @@ class PostController extends Controller
         $entity->setCreated(new \DateTime());
         $entity->setModified(new \DateTime());
         $entity->setPublishFrom(new \DateTime());
-        $entity->setPublishTo(new \DateTime());
+        $entity->setPublishTo(new \DateTime('tomorrow'));
         $entity->setTitle($request->get('title'));
         $entity->setText($request->get('text'));
 

@@ -3,6 +3,7 @@
 namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Controller;
 
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment;
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -15,16 +16,40 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="index")
-     * @Template()
+     * @Route("/page/{page}", name="page", defaults={"page" = 1})
+     * @Template("BlogApplicationBundle:Default:index.html.twig")
+     * @param number $page
+     * @return array
      */
-    public function indexAction()
+    public function pageAction($page)
     {
         $blogService = $this->get("cvut_fit_biwt1_blog");
         $entities = $blogService->findAllPosts();
+        $total = ceil(sizeof($entities)/5);
 
         return array(
-            'entities' => $entities
+            'entities' => $entities,
+            'totalpages' => $total,
+            'currentpage' => $page,
+        );
+    }
+
+    /**
+     * @Route("/", name="index", defaults={"page" = 1})
+     * @Template()
+     * @param number $page
+     * @return array
+     */
+    public function indexAction($page)
+    {
+        $blogService = $this->get("cvut_fit_biwt1_blog");
+        $entities = $blogService->findAllPosts();
+        $total = ceil(sizeof($entities)/5);
+
+        return array(
+            'entities' => $entities,
+            'totalpages' => $total,
+            'currentpage' => $page,
         );
     }
 

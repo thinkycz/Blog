@@ -38,11 +38,11 @@
             </tr>
             <tr>
                 <th>Tags</th>
-                <td>{% for tag in entity.tags %}{{ tag }} | {% endfor %}</td>
+                <td>{% for tag in entity.tags %}{{ tag }}{% if tag.id != entity.tags|last.id %} | {% endif %}{% endfor %}</td>
             </tr>
             <tr>
                 <th>Files</th>
-                <td>{% for file in entity.files %}{{ file.name }} | {% endfor %}</td>
+                <td>{% for file in entity.files %}{{ file.name }}{% if file.id != entity.files|last.id %} | {% endif %}{% endfor %}</td>
             </tr>
         </tbody>
     </table>

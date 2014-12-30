@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class DefaultController extends Controller
 {
@@ -35,8 +38,10 @@ class DefaultController extends Controller
     public function showAction($id)
     {
         $blogService = $this->get("cvut_fit_biwt1_blog");
-
         $entity = $blogService->findPost($id);
+
+        if(!(!$entity->getPrivate() || $this->get('security.context')->isGranted('ROLE_READER')))
+            throw new AccessDeniedException;
 
         return array(
             'entity'      => $entity,
@@ -72,5 +77,25 @@ class DefaultController extends Controller
         $blogService->addComment($entity, $newComment, $parentComment);
 
         return $this->redirect($this->generateUrl('post_show', array('id' => $id)));
+    }
+
+
+    /**
+     * Download action
+     * @Route("/post/{idPost}/download/{fileName}", name="download_file")
+     * @param $idPost
+     * @param $fileName
+     * @return BinaryFileResponse
+     */
+    public function downloadAction($idPost, $fileName)
+    {
+        $path = $this->get('kernel')->getRootDir(). "/data/";
+        $file = $path.$idPost.'/'.$fileName; // Path to the file on the server
+        $response = new BinaryFileResponse($file);
+
+        // Give the file a name:
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,$fileName);
+
+        return $response;
     }
 }

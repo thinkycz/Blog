@@ -14,15 +14,17 @@
         <div class="header">
             <nav>
                 <ul class="nav nav-pills pull-right">
-                    {% if is_granted('ROLE_USER') %}
+                    {% if is_granted('ROLE_ADMIN') %}
                         <li role="presentation" {% if app.request.get('_route') == 'admin_user' %} class="active" {% endif %}><a href="{{ path("admin_user") }}">Manage users</a></li>
+                    {% endif %}
+                    {% if is_granted('ROLE_AUTHOR') %}
                         <li role="presentation" {% if app.request.get('_route') == 'admin_post' %} class="active" {% endif %}><a href="{{ path("admin_post") }}">Manage posts</a></li>
                     {% endif %}
 
                         <li role="presentation" {% if app.request.get('_route') == 'index' %} class="active" {% endif %}><a href="{{ path("index") }}">Main page</a></li>
 
-                    {% if is_granted('ROLE_USER') %}
-                        <li role="presentation"><a href="{{ path("logout") }}">Log out</a></li>
+                    {% if is_granted('ROLE_READER') %}
+                        <li role="presentation"><a href="{{ path("logout") }}">Log out [{{ app.user.name }}]</a></li>
                     {% else %}
                         <li role="presentation"><a href="{{ path("login") }}">Log in</a></li>
                     {% endif %}

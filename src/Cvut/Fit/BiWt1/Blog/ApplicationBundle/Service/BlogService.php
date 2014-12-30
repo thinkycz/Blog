@@ -19,6 +19,7 @@ use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\TagInterface;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Service\BlogInterface;
 use Doctrine\Common\Collections\Collection;
+use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -175,6 +176,11 @@ class BlogService implements BlogInterface {
         return $this->postRepository->findAll();
     }
 
+    public function findFile($id)
+    {
+        return $this->fileRepository->find($id);
+    }
+
     /**
      * @param $id
      * @return CommentInterface
@@ -270,11 +276,14 @@ class BlogService implements BlogInterface {
         $this->fileRepository->remove($file);
         $this->postRepository->update($post);
 
-        $this->fileSystem->delete("{$post->getId()}/{$file->getName()}");
-        if(!$this->fileSystem->listContents("{$post->getId()}"))
-        {
-            $this->fileSystem->deleteDir("{$post->getId()}");
-        }
+        try{
+            $this->fileSystem->delete("{$post->getId()}/{$file->getName()}");
+            if(!$this->fileSystem->listContents("{$post->getId()}"))
+            {
+                $this->fileSystem->deleteDir("{$post->getId()}");
+            }
+        } catch(FileNotFoundException $e) {}
+
         return $post;
     }
 }

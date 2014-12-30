@@ -3,16 +3,20 @@
 {% block body -%}
     <div class="col-md-12">
         {% for entity in entities %}
-            <div class="panel panel-default panel-body">
-                <h2>
-                    <a href="{{ path("post_show", {"id": entity.id}) }}">{{ entity.title }}</a>
-                </h2>
-                <hr>
-                <p>
-                    {{ entity.text|slice(0, 200) }}
-                </p>
-                <a class="btn btn-primary" href="{{ path("post_show", {"id": entity.id}) }}">Read more <span class="glyphicon glyphicon-chevron-right"></span> </a>
-            </div>
+            {% if not entity.private or is_granted('ROLE_READER') %}
+                {% if 'now'|date >= entity.publishfrom|date and 'now'|date <= entity.publishto|date %}
+                    <div class="panel panel-default panel-body">
+                        <h2>
+                            <a href="{{ path("post_show", {"id": entity.id}) }}">{{ entity.title }}</a>
+                        </h2>
+                        <hr>
+                        <p>
+                            {{ entity.text|slice(0, 200) }}
+                        </p>
+                        <a class="btn btn-primary" href="{{ path("post_show", {"id": entity.id}) }}">Read more <span class="glyphicon glyphicon-chevron-right"></span> </a>
+                    </div>
+                {% endif %}
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

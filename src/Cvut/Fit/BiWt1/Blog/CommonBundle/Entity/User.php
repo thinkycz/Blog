@@ -54,12 +54,26 @@ class User implements UserInterface, CoreUserInterface
      */
     protected $password;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $role;
+
 	/**
 	 * konstruktor - inicializuje kolekce
 	 */
 	public function __construct() {
 		$this->posts = new ArrayCollection;
 	}
+
+    /**
+     * @param string $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
 
     /**
      * @param number $id
@@ -141,7 +155,12 @@ class User implements UserInterface, CoreUserInterface
      */
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return array($this->role);
+    }
+
+    public function getRole()
+    {
+        return $this->role;
     }
 
     /**

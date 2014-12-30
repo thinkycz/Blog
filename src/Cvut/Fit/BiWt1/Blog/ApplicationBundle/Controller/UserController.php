@@ -49,6 +49,8 @@ class UserController extends Controller
         $entity = new User();
         $entity->setName($request->get('username'));
         $entity->setPassword($request->get('password'));
+        $entity->setRole($request->get('role'));
+
         $userService->create($entity);
         return $this->redirect($this->generateUrl('admin_user_show', array('id' => $entity->getId())));
     }
@@ -127,6 +129,7 @@ class UserController extends Controller
 
         $entity->setName($request->get('username'));
         $entity->setPassword($request->get('password'));
+        $entity->setRole($request->get('role'));
         $userService->update($entity);
         return $this->redirect($this->generateUrl('admin_user'));
     }

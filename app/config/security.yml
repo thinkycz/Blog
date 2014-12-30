@@ -5,6 +5,11 @@ security:
                 class: Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\User
                 property: name
 
+    role_hierarchy:
+        ROLE_READER:      ROLE_VISITOR
+        ROLE_AUTHOR:      ROLE_READER
+        ROLE_ADMIN:       ROLE_AUTHOR
+
     encoders:
         Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\User:
             algorithm: plaintext
@@ -24,12 +29,13 @@ security:
             form_login:
                 login_path: login
                 check_path: login_check
-                default_target_path: /admin/post
+                default_target_path: /
             logout:
                 path: /logout
                 target: /
 
     access_control:
-        - { path: ^/admin, roles: ROLE_USER }
+        - { path: ^/admin/user, roles: ROLE_ADMIN }
+        - { path: ^/admin/post, roles: ROLE_AUTHOR }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

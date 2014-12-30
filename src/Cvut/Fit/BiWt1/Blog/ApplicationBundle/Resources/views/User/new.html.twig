@@ -19,6 +19,29 @@
 
         <br>
 
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon"><input type="radio" name="role" aria-label="..." checked value="ROLE_ADMIN"></span>
+                    <input type="text" class="form-control" value="ROLE_ADMIN - All permissions" readonly>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon"><input type="radio" name="role" aria-label="..." value="ROLE_AUTHOR"></span>
+                    <input type="text" class="form-control" value="ROLE_AUTHOR - Can create posts" readonly>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon"><input type="radio" name="role" aria-label="..." value="ROLE_READER"></span>
+                    <input type="text" class="form-control" value="ROLE_READER - can create comments" readonly>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
         <div class="btn-group" role="group" aria-label="...">
             <a href="{{ path('admin_user') }}" class="btn btn-default">Back to the list</a>
             <button type="submit" class="btn btn-default">Create</button>

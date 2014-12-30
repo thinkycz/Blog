@@ -7,6 +7,7 @@
                 {{ entity.title }}
             </h2>
             <p>Author: {{ entity.author }}</p>
+            <p>Tags: {% for tag in entity.tags %}{{ tag }}{% if tag.id != entity.tags|last.id %}, {% endif %}{% endfor %}</p>
             <p><span class="glyphicon glyphicon-time"></span> Published {{ entity.publishFrom|date('d.m.Y') }}</p>
             <hr>
             <p style="font-size: large">
@@ -14,9 +15,11 @@
             </p>
             <hr>
             {% include "BlogApplicationBundle:Default:comments.html.twig" with { 'comments': entity.comments } %}
+            <hr>
+            <p>Attached files: {% for file in entity.files %}<a href="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }} ">{{ file.name }}</a>{% if file.id != entity.files|last.id %}, {% endif %}{% endfor %}</p>
         </div>
 
-        {% if is_granted('ROLE_USER') %}
+        {% if is_granted('ROLE_READER') %}
         <div class="panel panel-default panel-body">
             <form method="post" action="{{ path("post_comment", { 'id': entity.id }) }}">
                 <label for="inputHelpBlock">Comment text</label>

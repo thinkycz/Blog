@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Post;
 use League\Flysystem;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Post controller.
@@ -62,10 +63,13 @@ class PostController extends Controller
 
         foreach($request->files->get('files') as $tmp)
         {
-            $file = new File();
-            $file->setData($tmp);
-            $file->setCreated(new \DateTime());
-            $blogService->addPostFile($file, $entity);
+            if($tmp)
+            {
+                $file = new File();
+                $file->setData($tmp);
+                $file->setCreated(new \DateTime());
+                $blogService->addPostFile($file, $entity);
+            }
         }
 
         $tags = explode("|", $request->get('tags'));
@@ -118,6 +122,10 @@ class PostController extends Controller
         $blogService = $this->get("cvut_fit_biwt1_blog");
         $entity = $blogService->findPost($id);
 
+        $loggedUser = $this->getUser();
+        if(!($loggedUser->getRole() == 'ROLE_ADMIN' || ($loggedUser->getRole() == 'ROLE_AUTHOR' && $loggedUser->getName() == $entity->getAuthor()->getName())))
+            throw new AccessDeniedException;
+
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
@@ -137,8 +145,11 @@ class PostController extends Controller
     public function editAction($id)
     {
         $blogService = $this->get("cvut_fit_biwt1_blog");
-
         $entity = $blogService->findPost($id);
+
+        $loggedUser = $this->getUser();
+        if(!($loggedUser->getRole() == 'ROLE_ADMIN' || ($loggedUser->getRole() == 'ROLE_AUTHOR' && $loggedUser->getName() == $entity->getAuthor()->getName())))
+            throw new AccessDeniedException;
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Post entity.');
@@ -159,26 +170,37 @@ class PostController extends Controller
     public function updateAction(Request $request, $id)
     {
         $blogService = $this->get("cvut_fit_biwt1_blog");
-
         $entity = $blogService->findPost($id);
+
+        $loggedUser = $this->getUser();
+        if(!($loggedUser->getRole() == 'ROLE_ADMIN' || ($loggedUser->getRole() == 'ROLE_AUTHOR' && $loggedUser->getName() == $entity->getAuthor()->getName())))
+            throw new AccessDeniedException;
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
-        $entity->setAuthor($this->getUser());
         $entity->setModified(new \DateTime());
         $entity->setPublishFrom(new \DateTime($request->get('publishfrom')));
         $entity->setPublishTo(new \DateTime($request->get('publishto')));
         $entity->setTitle($request->get('title'));
         $entity->setText($request->get('text'));
 
+        foreach($request->files->get('files') as $tmp)
+        {
+            if($tmp) {
+                $file = new File();
+                $file->setData($tmp);
+                $file->setCreated(new \DateTime());
+                $blogService->addPostFile($file, $entity);
+            }
+        }
+
         foreach($entity->getTags() as $tag)
         {
             $entity->removeTag($tag);
             $tag->removePost($entity);
         }
-
 
         $tags = explode("|", $request->get('tags'));
 
@@ -213,8 +235,12 @@ class PostController extends Controller
     {
         $blogService = $this->get("cvut_fit_biwt1_blog");
         $post = $blogService->findPost($id);
-        $blogService->deletePost($post);
 
+        $loggedUser = $this->getUser();
+        if(!($loggedUser->getRole() == 'ROLE_ADMIN' || ($loggedUser->getRole() == 'ROLE_AUTHOR' && $loggedUser->getName() == $post->getAuthor()->getName())))
+            throw new AccessDeniedException;
+
+        $blogService->deletePost($post);
         return $this->redirect($this->generateUrl('admin_post'));
     }
 
@@ -223,15 +249,16 @@ class PostController extends Controller
      *
      * @Route("/{idPost}/delete/{idComment}", name="admin_comment_delete")
      * @Method("GET")
-     * @param $idPost, $idComment
+     * @param $idPost
+     * @param $idComment
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function commentDeleteAction($idPost, $idComment)
     {
         $blogService = $this->get("cvut_fit_biwt1_blog");
         $comment = $blogService->findComment($idComment);
-        $blogService->deleteComment($comment);
 
+        $blogService->deleteComment($comment);
         return $this->redirect($this->generateUrl('admin_post_show', array('id' => $idPost)));
     }
 
@@ -240,7 +267,8 @@ class PostController extends Controller
      *
      * @Route("/{idPost}/edit/{idComment}", name="admin_comment_edit")
      * @param Request $request
-     * @param $idPost, $idComment
+     * @param $idPost
+     * @param $idComment
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function commentEditAction(Request $request, $idPost, $idComment)
@@ -251,5 +279,22 @@ class PostController extends Controller
         $blogService->updateComment($comment);
 
         return $this->redirect($this->generateUrl('admin_post_show', array('id' => $idPost)));
+    }
+
+    /**
+     * Removes a file from post
+     *
+     * @Route("/{idPost}/removeFile/{idFile}", name="admin_file_remove")
+     * @param $idPost
+     * @param $idFile
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function removeFileAction($idPost, $idFile)
+    {
+        $blogService = $this->get("cvut_fit_biwt1_blog");
+        $file = $blogService->findFile($idFile);
+        $blogService->deleteFile($file);
+
+        return $this->redirect($this->generateUrl('admin_post_edit', array('id' => $idPost)));
     }
 }

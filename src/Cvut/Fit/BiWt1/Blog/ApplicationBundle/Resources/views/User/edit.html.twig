@@ -17,6 +17,29 @@
         <input type="password" class="form-control" value="{{ entity.password }}" name="password">
     </div>
 
+        <br>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon"><input type="radio" name="role" aria-label="..." value="ROLE_ADMIN" {% if entity.role == 'ROLE_ADMIN' %}checked{% endif %}></span>
+                    <input type="text" class="form-control" value="ROLE_ADMIN - All permissions" readonly>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon"><input type="radio" name="role" aria-label="..." value="ROLE_AUTHOR" {% if entity.role == 'ROLE_AUTHOR' %}checked{% endif %}></span>
+                    <input type="text" class="form-control" value="ROLE_AUTHOR - Can create posts" readonly>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon"><input type="radio" name="role" aria-label="..." value="ROLE_READER" {% if entity.role == 'ROLE_READER' %}checked{% endif %}></span>
+                    <input type="text" class="form-control" value="ROLE_READER - can create comments" readonly>
+                </div>
+            </div>
+        </div>
+
     <br>
 
     <div class="btn-group" role="group" aria-label="...">

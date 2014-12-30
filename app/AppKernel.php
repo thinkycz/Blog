@@ -20,7 +20,7 @@ class AppKernel extends Kernel
             new Cvut\Fit\BiWt1\Blog\CommonBundle\BlogCommonBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
             new Cvut\Fit\BiWt1\Blog\ApplicationBundle\BlogApplicationBundle(),
-			new Cvut\Fit\Ict\SecurityBundle\CvutFitIctSecurityBundle(),
+			//new Cvut\Fit\Ict\SecurityBundle\CvutFitIctSecurityBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

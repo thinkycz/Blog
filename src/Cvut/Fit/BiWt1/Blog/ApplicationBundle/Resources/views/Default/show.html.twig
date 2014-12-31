@@ -16,7 +16,16 @@
             <hr>
             {% include "BlogApplicationBundle:Default:comments.html.twig" with { 'comments': entity.comments } %}
             <hr>
-            <p>Attached files: {% for file in entity.files if not file.comment %}<a href="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }}">{{ file.name }}</a>{% if file.id != entity.files|last.id %}, {% endif %}{% else %}No files attached{% endfor %}</p>
+            <p>Attached files:
+                {% for file in entity.files if not file.comment %}
+                    {% if file.internetmediatype == 'image/png' or  file.internetmediatype == 'image/jpeg' or  file.internetmediatype == 'image/gif' %}
+                        <a href="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }}"><img class="img-thumbnail" style="max-height: 50pt" src="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }}"></a>
+                    {% else %}
+                        <a href="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }}">{{ file.name }}</a>, 
+                    {% endif %}
+                {% else %}
+                    No files attached
+                {% endfor %}</p>
         </div>
 
         {% if is_granted('ROLE_READER') %}

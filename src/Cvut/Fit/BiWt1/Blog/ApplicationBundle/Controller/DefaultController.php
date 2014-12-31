@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\File;
 
 class DefaultController extends Controller
 {
@@ -96,6 +97,17 @@ class DefaultController extends Controller
         $newComment->setAuthor($this->getUser());
         $newComment->setText($request->get('text'));
         $newComment->setSpam(false);
+
+        foreach($request->files->get('files') as $tmp)
+        {
+            if($tmp)
+            {
+                $file = new File();
+                $file->setData($tmp);
+                $file->setCreated(new \DateTime());
+                $blogService->addPostFile($file, $entity, $newComment);
+            }
+        }
 
         $parentComment = $blogService->findComment($request->get("parent"));
 

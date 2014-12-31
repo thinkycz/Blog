@@ -16,17 +16,18 @@
             <hr>
             {% include "BlogApplicationBundle:Default:comments.html.twig" with { 'comments': entity.comments } %}
             <hr>
-            <p>Attached files: {% for file in entity.files %}<a href="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }} ">{{ file.name }}</a>{% if file.id != entity.files|last.id %}, {% endif %}{% endfor %}</p>
+            <p>Attached files: {% for file in entity.files if not file.comment %}<a href="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }}">{{ file.name }}</a>{% if file.id != entity.files|last.id %}, {% endif %}{% else %}No files attached{% endfor %}</p>
         </div>
 
         {% if is_granted('ROLE_READER') %}
         <div class="panel panel-default panel-body">
-            <form method="post" action="{{ path("post_comment", { 'id': entity.id }) }}">
+            <form method="post" action="{{ path("post_comment", { 'id': entity.id }) }}" enctype="multipart/form-data">
                 <label for="inputHelpBlock">Comment text</label>
                 <input type="text" id="inputHelpBlock" class="form-control" aria-describedby="helpBlock" name="text">
                 <span id="helpBlock" class="help-block">You are now commenting as {{ app.security.token.user }} and reacting to <a id="parent" onclick="unsetParent()" onmouseover="" style="cursor: pointer;">the article</a></span>
                 <input type="hidden" name="parent" value="article" id="hidden">
                 <button type="submit" class="btn btn-primary">Send comment</button>
+                <span class="btn btn-default"><input type="file" id="files" name="files[]" multiple></span>
             </form>
         </div>
         {% endif %}

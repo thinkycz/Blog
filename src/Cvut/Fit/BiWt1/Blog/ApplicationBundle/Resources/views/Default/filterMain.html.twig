@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Set filter</h3>
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="input-group">
+                                  <span class="input-group-addon">
+                                        <input type="radio" name="byData" value="author" aria-label="..." checked> Only posts by author:
+                                  </span>
+                                <input type="text" class="form-control" name="author" aria-label="...">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="input-group">
+                                  <span class="input-group-addon">
+                                        <input type="radio" name="byData" value="month" aria-label="..."> Only posts in month:
+                                  </span>
+                                <input type="number" min="1" max="12" class="form-control" name="month" aria-label="...">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="input-group">
+                                  <span class="input-group-addon">
+                                        <input type="radio" name="byData" value="tag" aria-label="..."> Only posts with tag:
+                                  </span>
+                                <input type="text" class="form-control" name="tag" aria-label="...">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                  <span class="input-group-addon">
+                                    <input type="radio" name="byData" value="private" aria-label="...">
+                                  </span>
+                                <input type="text" class="form-control" aria-label="..." value="Display only private posts" readonly>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                  <span class="input-group-addon">
+                                    <input type="radio" name="byData" value="public" aria-label="...">
+                                  </span>
+                                <input type="text" class="form-control" aria-label="..." value="Display only public posts" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn btn-primary" type="submit">Set this filter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

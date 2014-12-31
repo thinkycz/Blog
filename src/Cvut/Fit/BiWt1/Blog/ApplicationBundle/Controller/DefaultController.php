@@ -16,7 +16,34 @@ use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\File;
 
 class DefaultController extends Controller
 {
+
     /**
+     * Displays page to filter
+     *
+     * @Route("/filter/main", name="filter_main")
+     * @return array
+     * @Template()
+     */
+    public function filterMainAction()
+    {
+        return array();
+    }
+
+    /**
+     * Displays posts according to the set filter
+     *
+     * @Route("/filter/{byData}/{theData}", name="filter")
+     * @return array;
+     * @Template("BlogApplicationBundle:Default:index.html.twig")
+     */
+    public function filterAction()
+    {
+        return array();
+    }
+
+    /**
+     * Displays page number
+     *
      * @Route("/page/{page}", name="page", defaults={"page" = 1})
      * @Template("BlogApplicationBundle:Default:index.html.twig")
      * @param number $page
@@ -36,6 +63,8 @@ class DefaultController extends Controller
     }
 
     /**
+     * Displays main page
+     *
      * @Route("/", name="index", defaults={"page" = 1})
      * @Template()
      * @param number $page

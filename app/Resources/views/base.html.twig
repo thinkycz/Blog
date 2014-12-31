@@ -4,7 +4,8 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset("bundles/blogcommon/css/bootstrap.css") }}" />
+            <link rel="stylesheet" href="{{ asset("bundles/blogcommon/css/bootstrap.css") }}" media="screen" />
+            <link rel="stylesheet" href="{{ asset("bundles/blogcommon/css/print.css") }}" media="print" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -20,6 +21,8 @@
                     {% if is_granted('ROLE_AUTHOR') %}
                         <li role="presentation" {% if app.request.get('_route') == 'admin_post' %} class="active" {% endif %}><a href="{{ path("admin_post") }}">Manage posts</a></li>
                     {% endif %}
+
+                        <li role="presentation" {% if app.request.get('_route') == 'filter_main' %} class="active" {% endif %}><a href="{{ path("filter_main") }}">Filter posts</a></li>
 
                         <li role="presentation" {% if app.request.get('_route') == 'index' %} class="active" {% endif %}><a href="{{ path("index") }}">Main page</a></li>
 

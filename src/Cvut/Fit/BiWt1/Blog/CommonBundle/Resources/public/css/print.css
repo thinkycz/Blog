@@ -1,0 +1,8 @@
+.btn, .pager, .nav, .links
+{
+    display: none;
+}
+a
+{
+    text-decoration: none;
+}

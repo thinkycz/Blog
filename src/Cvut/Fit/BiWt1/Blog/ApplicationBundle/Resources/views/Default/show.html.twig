@@ -15,21 +15,26 @@
             </p>
             <hr>
             {% include "BlogApplicationBundle:Default:comments.html.twig" with { 'comments': entity.comments } %}
+            {% if not entity.comments.count %}
+            <p>No comments yet</p>
+            {% endif %}
+            <div class="links">
             <hr>
             <p>Attached files:
                 {% for file in entity.files if not file.comment %}
                     {% if file.internetmediatype == 'image/png' or  file.internetmediatype == 'image/jpeg' or  file.internetmediatype == 'image/gif' %}
                         <a href="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }}"><img class="img-thumbnail" style="max-height: 50pt" src="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }}"></a>
                     {% else %}
-                        <a href="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }}">{{ file.name }}</a>, 
+                        <a href="{{ path('download_file', {'idPost': entity.id, 'fileName': file.name}) }}">{{ file.name }}</a>,
                     {% endif %}
                 {% else %}
                     No files attached
                 {% endfor %}</p>
+            </div>
         </div>
 
         {% if is_granted('ROLE_READER') %}
-        <div class="panel panel-default panel-body">
+        <div class="panel panel-default panel-body links">
             <form method="post" action="{{ path("post_comment", { 'id': entity.id }) }}" enctype="multipart/form-data">
                 <label for="inputHelpBlock">Comment text</label>
                 <input type="text" id="inputHelpBlock" class="form-control" aria-describedby="helpBlock" name="text">

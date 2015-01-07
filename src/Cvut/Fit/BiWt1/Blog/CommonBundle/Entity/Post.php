@@ -109,7 +109,7 @@ class Post implements PostInterface
 	 * Kolekce tagu vztahujici se k prispevku
 	 * @var Collection
 	 * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts", cascade={"persist"})
-     * @ORM\JoinColumn(onDelete="CASCADE")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      * @ORM\JoinTable(name="blog_post_tag")
 	 */
 	protected $tags;

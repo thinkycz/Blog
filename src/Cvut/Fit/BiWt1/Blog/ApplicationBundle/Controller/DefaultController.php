@@ -4,15 +4,18 @@ namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Controller;
 
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostInterface;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\File;
+use Symfony\Component\Validator\Constraints\Date;
 
 class DefaultController extends Controller
 {
@@ -30,15 +33,85 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/filter/redirect", name="filter_redirect")
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function filterRedirectAction(Request $request)
+    {
+        $by = $request->get('byData');
+
+        if($by == 'author')
+            $data = $request->get('author');
+        elseif($by == 'month')
+            $data = $request->get('month');
+        elseif($by == 'tag')
+            $data = $request->get('tag');
+        elseif($by == 'private')
+            $data = 'only';
+        elseif($by == 'public')
+            $data = 'only';
+
+        return $this->redirect($this->generateUrl('filter', array('by' => $by, 'data' => $data)));
+    }
+
+    /**
      * Displays posts according to the set filter
      *
-     * @Route("/filter/{byData}/{theData}", name="filter")
+     * @Route("/filter/{by}/{data}", name="filter")
      * @return array;
-     * @Template("BlogApplicationBundle:Default:index.html.twig")
+     * @Template()
+     * @param $by
+     * @param $data
      */
-    public function filterAction()
+    public function filterAction($by, $data)
     {
-        return array();
+        $blogService = $this->get("cvut_fit_biwt1_blog");
+        $userService = $this->get("cvut_fit_biwt1_user");
+
+        if($by == "author")
+        {
+            $author = $userService->findBy(Criteria::create()->where(Criteria::expr()->eq('name', $data)))->first();
+            $entities = $blogService->findPostBy(Criteria::create()->where(Criteria::expr()->eq('author', $author)));
+            return array(
+                'entities' => $entities,
+                'month' => null,
+            );
+        }
+        elseif($by == 'month')
+        {
+            $entities = $blogService->findAllPosts();
+            return array(
+                'entities' => $entities,
+                'month' => $data,
+            );
+        }
+        elseif($by == 'tag')
+        {
+            $tag = $blogService->findTagBy(Criteria::create()->where(Criteria::expr()->eq('title', $data)))->first();
+            if(!$tag) return array('entities' => null);
+
+            return array(
+                'entities' => $tag->getPosts(),
+                'month' => null,
+            );
+        }
+        elseif($by == 'private')
+        {
+            $entities = $blogService->findPostBy(Criteria::create()->where(Criteria::expr()->eq('private', true)));
+            return array(
+                'entities' => $entities,
+                'month' => null,
+            );
+        }
+        elseif($by == 'public')
+        {
+            $entities = $blogService->findPostBy(Criteria::create()->where(Criteria::expr()->eq('private', false)));
+            return array(
+                'entities' => $entities,
+                'month' => null,
+            );
+        }
     }
 
     /**

@@ -98,17 +98,6 @@ class BlogService implements BlogInterface {
     }
 
     /**
-     * Najde a vrati tagy podle kriterii
-     *
-     * @param mixed $criteria - cast QueryBuilderu, ktera se pouzije v QueryBuilder::andWhere
-     * @return TagInterface
-     */
-    public function findTagByString($criteria)
-    {
-        return $this->tagRepository->matching($criteria)->first();
-    }
-
-    /**
      * Vytvori novy zapisek
      *
      * @param PostInterface $post

@@ -76,8 +76,8 @@ class PostController extends Controller
 
         foreach($tags as $tagStr)
         {
-            if($blogService->findTagByString(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr))))
-                $tag = $blogService->findTagByString(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr)));
+            if($blogService->findTagBy(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr)))->first())
+                $tag = $blogService->findTagBy(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr)))->first();
             else
                 $tag = new Tag();
 
@@ -206,8 +206,8 @@ class PostController extends Controller
 
         foreach($tags as $tagStr)
         {
-            if($blogService->findTagByString(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr))))
-                $tag = $blogService->findTagByString(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr)));
+            if($blogService->findTagBy(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr)))->first())
+                $tag = $blogService->findTagBy(Criteria::create()->where(Criteria::expr()->eq('title', $tagStr)))->first();
             else
                 $tag = new Tag();
 

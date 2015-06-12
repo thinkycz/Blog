@@ -2,6 +2,7 @@
 
 namespace Cvut\Fit\BiWt1\Blog\ApplicationBundle\Controller;
 
+use Carbon\Carbon;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\Comment;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\PostInterface;
 use Doctrine\Common\Collections\Criteria;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Cvut\Fit\BiWt1\Blog\CommonBundle\Entity\File;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
 {
@@ -47,10 +49,8 @@ class DefaultController extends Controller
             $data = $request->get('month');
         elseif($by == 'tag')
             $data = $request->get('tag');
-        elseif($by == 'private')
-            $data = 'only';
-        elseif($by == 'public')
-            $data = 'only';
+        else
+            $data = null;
 
         return $this->redirect($this->generateUrl('filter', array('by' => $by, 'data' => $data)));
     }
@@ -75,15 +75,14 @@ class DefaultController extends Controller
             $entities = $blogService->findPostBy(Criteria::create()->where(Criteria::expr()->eq('author', $author)));
             return array(
                 'entities' => $entities,
-                'month' => null,
             );
         }
         elseif($by == 'month')
         {
-            $entities = $blogService->findAllPosts();
+            $entities = $blogService->findPostBy(Criteria::create()->where(Criteria::expr()->gte('created', Carbon::create(2015, $data, 1) ))
+            ->andWhere(Criteria::expr()->lt('created', Carbon::create(2015, $data, 1)->addMonth() )));
             return array(
                 'entities' => $entities,
-                'month' => $data,
             );
         }
         elseif($by == 'tag')
@@ -93,7 +92,6 @@ class DefaultController extends Controller
 
             return array(
                 'entities' => $tag->getPosts(),
-                'month' => null,
             );
         }
         elseif($by == 'private')
@@ -101,7 +99,6 @@ class DefaultController extends Controller
             $entities = $blogService->findPostBy(Criteria::create()->where(Criteria::expr()->eq('private', true)));
             return array(
                 'entities' => $entities,
-                'month' => null,
             );
         }
         elseif($by == 'public')
@@ -109,7 +106,6 @@ class DefaultController extends Controller
             $entities = $blogService->findPostBy(Criteria::create()->where(Criteria::expr()->eq('private', false)));
             return array(
                 'entities' => $entities,
-                'month' => null,
             );
         }
     }

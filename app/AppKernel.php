@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
             new Cvut\Fit\BiWt1\Blog\ApplicationBundle\BlogApplicationBundle(),
 			//new Cvut\Fit\Ict\SecurityBundle\CvutFitIctSecurityBundle(),
+            new LightSuner\CarbonBundle\CarbonBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -20,7 +20,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "cvut_fit_ict/symfony-security": "0.0.1",
-        "oneup/flysystem-bundle": "dev-master"
+        "oneup/flysystem-bundle": "dev-master",
+        "lightsuner/carbon-bundle": "^2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

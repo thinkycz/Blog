@@ -12,4 +12,5 @@ use Cvut\Fit\BiWt1\Blog\CommonBundle\Doctrine\Repository\EntityRepository;
  */
 class PostRepository extends EntityRepository
 {
+
 }

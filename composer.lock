@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9d33a5798382747288beeadb1132bd2e",
+    "hash": "204db8c465ff3854183b4611785a479f",
     "packages": [
         {
             "name": "cvut_fit_ict/symfony-security",
@@ -1107,6 +1107,37 @@
             "time": "2014-11-05 13:39:29"
         },
         {
+            "name": "lightsuner/carbon-bundle",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lightsuner/CarbonBundle.git",
+                "reference": "f9df5f7d79d1c257c0fdbe8660cd93140060208c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lightsuner/CarbonBundle/zipball/f9df5f7d79d1c257c0fdbe8660cd93140060208c",
+                "reference": "f9df5f7d79d1c257c0fdbe8660cd93140060208c",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "*",
+                "sensio/framework-extra-bundle": "3.*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "LightSuner\\CarbonBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Provide Carbon datetime lib. as annotations param. converter (SensioFrameworkExtraBundle)",
+            "time": "2015-03-11 22:31:04"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.12.0",
             "source": {
@@ -1179,6 +1210,52 @@
             "time": "2014-12-29 21:29:35"
         },
         {
+            "name": "nesbot/carbon",
+            "version": "1.17.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/briannesbitt/Carbon.git",
+                "reference": "a1dd1ad9abfc8b3c4d8768068e6c71d293424e86"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a1dd1ad9abfc8b3c4d8768068e6c71d293424e86",
+                "reference": "a1dd1ad9abfc8b3c4d8768068e6c71d293424e86",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Carbon": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Nesbitt",
+                    "email": "brian@nesbot.com",
+                    "homepage": "http://nesbot.com"
+                }
+            ],
+            "description": "A simple API extension for DateTime.",
+            "homepage": "http://carbon.nesbot.com",
+            "keywords": [
+                "date",
+                "datetime",
+                "time"
+            ],
+            "time": "2015-03-08 14:05:44"
+        },
+        {
             "name": "oneup/flysystem-bundle",
             "version": "dev-master",
             "target-dir": "Oneup/FlysystemBundle",
@@ -1189,7 +1266,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/35dab1dcf44eee6f942782fe03dd12e8e8af09a1",
+                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/fdbe6f9c6b3932f53c08549cb594cb178884a15d",
                 "reference": "35dab1dcf44eee6f942782fe03dd12e8e8af09a1",
                 "shasum": ""
             },
@@ -2736,6 +2813,7 @@
         "phpunit/phpunit-skeleton-generator": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.3"
     },
